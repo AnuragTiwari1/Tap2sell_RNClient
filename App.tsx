@@ -3,7 +3,6 @@
  * https://github.com/facebook/react-native
  *
  * @format
- * @flow
  */
 
 import React from 'react';
@@ -24,7 +23,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App = (): any => {
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -75,9 +74,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
+  // body: {
+  //   backgroundColor: Colors.white,
+  // },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
