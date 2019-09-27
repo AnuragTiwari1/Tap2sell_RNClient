@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
   },
-  // body: {
-  //   backgroundColor: Colors.white,
-  // },
+  body: {
+    backgroundColor: Colors.white,
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
