@@ -22,8 +22,9 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Button} from 'react-native-elements';
 
-const App = () => {
+const Landing = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -34,10 +35,10 @@ const App = () => {
           <Header />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
+              <Button title="Step One" />
               <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+                Edit <Text style={styles.highlight}>Landing.js</Text> to change
+                this screen and then come back to see your edits.
               </Text>
             </View>
             <View style={styles.sectionContainer}>
@@ -105,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Landing;
