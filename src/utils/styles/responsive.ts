@@ -1,5 +1,5 @@
 import {PixelRatio} from 'react-native';
-import {useDimensions} from '../Providers/DimensionProvider';
+import {useDimensions} from '../../Providers/DimensionProvider';
 
 export const useResponsiveHelper = () => {
   const {width, height} = useDimensions();
