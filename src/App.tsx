@@ -1,19 +1,22 @@
 import React from 'react';
-import {ThemeProvider} from 'react-native-elements';
+import {SharedElementRenderer} from 'react-native-motion';
 import Landing from './screens/Landing';
 import {Theme} from './constants/Theme';
-import {SharedElementRenderer} from 'react-native-motion';
 import {Provider} from 'react-redux';
 import store from './redux/store';
+import {ThemeProvider} from './Providers/ThemeProvider';
+import {DimensionProvider} from './Providers/DimensionProvider';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <SharedElementRenderer>
-        <ThemeProvider theme={Theme}>
-          <Landing />
-        </ThemeProvider>
-      </SharedElementRenderer>
+      <DimensionProvider>
+        <SharedElementRenderer>
+          <ThemeProvider theme={Theme}>
+            <Landing />
+          </ThemeProvider>
+        </SharedElementRenderer>
+      </DimensionProvider>
     </Provider>
   );
 };
