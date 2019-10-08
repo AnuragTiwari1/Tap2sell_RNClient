@@ -19,12 +19,12 @@ const fonts = {
   DenkOne: {
     weights: {
       Regular: '400',
-      Bold: '700',
     } as IWeights,
   },
   Lato: {
     weights: {
       Regular: '400',
+      Bold: '900',
     } as IWeights,
   },
 };

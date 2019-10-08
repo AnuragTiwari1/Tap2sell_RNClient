@@ -3,6 +3,7 @@ import {useDimensions} from '../../Providers/DimensionProvider';
 
 export const useResponsiveHelper = () => {
   const {width, height} = useDimensions();
+
   const widthPercentageToDP = (widthPercent: number | string) => {
     const screenWidth = width;
     const elemWidth =

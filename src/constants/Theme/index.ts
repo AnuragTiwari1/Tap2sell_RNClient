@@ -1,4 +1,5 @@
 import {colors, IColour} from './colors';
+import {getFontStyleObject} from '../../utils/styles/fonts';
 
 export interface IBasicTheme {
   colors: IColour;
@@ -10,6 +11,31 @@ export const small = 3;
 export const base = 5;
 export const large = 7;
 export const xLarge = 10;
+
+// TODO: add Theme types
+const elements = {
+  Input: {
+    inputContainerStyle: {
+      borderBottomWidth: 0.6,
+      borderWidth: 0.6,
+      borderRadius: 4,
+    },
+    inputStyle: {
+      marginTop: `${tiny}%`,
+      marginBottom: `${tiny}%`,
+      minHeight: 48,
+      ...getFontStyleObject(),
+    },
+    leftIconContainerStyle: {
+      marginLeft: `${small}%`,
+      marginRight: `${small}%`,
+    },
+    containerStyle: {
+      marginVertical: `${small}%`,
+      paddingHorizontal: 0,
+    },
+  },
+};
 
 export interface IStyledTheme {
   spacing: {
@@ -41,5 +67,5 @@ export const Theme: ITheme = {
       xLarge,
     },
   },
-  elements: {},
+  elements,
 };

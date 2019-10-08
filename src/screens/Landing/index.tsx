@@ -18,30 +18,35 @@ import {
 } from './styles';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 import {Input} from 'react-native-elements';
+import {EmailIcon, PasswordIcon} from '../../components/Icon/Login';
+import {tinyIcon} from '../../components/Icon/common';
 
 const Landing = () => {
   const {heightPercentageToDP, widthPercentageToDP} = useResponsiveHelper();
   return (
-    <>
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Container style={[{height: heightPercentageToDP(100)}]}>
-            <LogoContainer>
-              <AppTitle style={[{fontSize: heightPercentageToDP(10)}]}>
-                Tap2sell
-              </AppTitle>
-              <Subtitle>Sell Your Used Mobile Online for Instant Cash</Subtitle>
-            </LogoContainer>
-            <InputAndButtonContainer>
-              <Input
-                placeholder="INPUT WITH ICON"
-                leftIcon={{type: 'font-awesome', name: 'chevron-left'}}
-              />
-            </InputAndButtonContainer>
-          </Container>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <SafeAreaView>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <Container style={[{height: heightPercentageToDP(100)}]}>
+          <LogoContainer>
+            <AppTitle style={[{fontSize: heightPercentageToDP(10)}]}>
+              Tap2sell
+            </AppTitle>
+            <Subtitle>Sell Your Used Mobile Online for Instant Cash</Subtitle>
+          </LogoContainer>
+          <InputAndButtonContainer>
+            <Input
+              placeholder="Email"
+              leftIcon={<EmailIcon size={widthPercentageToDP(tinyIcon)} />}
+            />
+            <Input
+              placeholder="Password"
+              leftIcon={<PasswordIcon size={widthPercentageToDP(tinyIcon)} />}
+            />
+            <Text type="bold primary small center">FORGOT PASSWORD?</Text>
+          </InputAndButtonContainer>
+        </Container>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
