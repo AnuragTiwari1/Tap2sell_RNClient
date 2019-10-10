@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {AppText as Text} from '../../components/common/AppText';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {
   ScrollView,
   Container,
@@ -64,8 +64,16 @@ const Landing = () => {
               }}>
               or connect with
             </Text>
-            <Logo width={120} height={40} />
-            <Text type="center">I'll do it Later..</Text>
+            <View style={{alignItems: 'center', marginBottom: `${base}%`}}>
+              <Logo width={120} height={40} />
+            </View>
+            <Text
+              type="center"
+              style={{
+                marginVertical: `${base}%`,
+              }}>
+              I'll do it Later..
+            </Text>
           </InputAndButtonContainer>
         </Container>
       </ScrollView>

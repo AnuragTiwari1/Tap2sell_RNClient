@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {Text} from 'react-native-elements';
-import {xLarge, xTiny, tiny, small, base} from '../../constants/Theme';
+import {xLarge, base} from '../../constants/Theme';
 import {AppText} from '../../components/common/AppText';
 
 export const ScrollView = styled.ScrollView`
@@ -11,7 +11,6 @@ export const Container = styled.View``;
 
 export const LogoContainer = styled.View`
   flex: 3;
-  flex-shrink: 1;
   justify-content: center;
   align-items: center;
 `;
