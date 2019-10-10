@@ -4,7 +4,7 @@ import {getFontStyleObject} from '../../utils/styles/fonts';
 export interface IBasicTheme {
   colors: IColour;
 }
-
+// spacing
 export const xTiny = 1;
 export const tiny = 2;
 export const small = 3;
@@ -12,18 +12,22 @@ export const base = 5;
 export const large = 7;
 export const xLarge = 10;
 
+//specification
+export const buttonHeight = 48;
+export const borderRadius = 6;
+
 // TODO: add Theme types
 const elements = {
   Input: {
     inputContainerStyle: {
       borderBottomWidth: 0.6,
       borderWidth: 0.6,
-      borderRadius: 4,
+      borderRadius,
     },
     inputStyle: {
       marginTop: `${tiny}%`,
       marginBottom: `${tiny}%`,
-      minHeight: 48,
+      minHeight: 40,
       ...getFontStyleObject(),
     },
     leftIconContainerStyle: {
@@ -33,6 +37,15 @@ const elements = {
     containerStyle: {
       marginVertical: `${small}%`,
       paddingHorizontal: 0,
+    },
+  },
+  Button: {
+    buttonStyle: {
+      minHeight: buttonHeight,
+      borderRadius,
+    },
+    titleStyle: {
+      ...getFontStyleObject({family: 'Lato', weight: 'Bold'}),
     },
   },
 };

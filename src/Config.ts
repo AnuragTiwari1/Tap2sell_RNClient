@@ -4,4 +4,5 @@ export default {
   isAndroid: Platform.OS === 'android',
   logGeneral: false,
   logNetworkErrors: false,
+  isTablet: false,
 };

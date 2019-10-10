@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {Text} from 'react-native-elements';
-import {CenteredText} from '../../components/common/AppText';
-import {xLarge} from '../../constants/Theme';
+import {xLarge, xTiny, tiny, small, base} from '../../constants/Theme';
+import {AppText} from '../../components/common/AppText';
 
 export const ScrollView = styled.ScrollView`
   background-color: ${props => props.theme.basic.colors.searchBg};
@@ -11,6 +11,7 @@ export const Container = styled.View``;
 
 export const LogoContainer = styled.View`
   flex: 3;
+  flex-shrink: 1;
   justify-content: center;
   align-items: center;
 `;
@@ -19,6 +20,7 @@ export const InputAndButtonContainer = styled.View`
   padding-left: ${xLarge}%;
   padding-right: ${xLarge}%;
   flex: 4;
+  justify-content: space-around;
 `;
 
 export const AppTitle = styled(Text)`
@@ -27,7 +29,13 @@ export const AppTitle = styled(Text)`
   color: ${props => props.theme.basic.colors.secondary};
 `;
 
-export const Subtitle = styled(CenteredText)`
+export const Subtitle = styled(AppText)`
   margin-left: 15%;
   margin-right: 15%;
+  font-weight: 100;
+  font-family: Lato-Bold;
+`;
+
+export const ForgotPassword = styled(AppText)`
+  margin: ${base}% 0;
 `;

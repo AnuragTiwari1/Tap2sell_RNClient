@@ -15,14 +15,21 @@ import {
   InputAndButtonContainer,
   AppTitle,
   Subtitle,
+  ForgotPassword,
 } from './styles';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
-import {Input} from 'react-native-elements';
+import {Input, Button} from 'react-native-elements';
 import {EmailIcon, PasswordIcon} from '../../components/Icon/Login';
 import {tinyIcon} from '../../components/Icon/common';
+import {useDimensions} from '../../Providers/DimensionProvider';
+import Config from '../../Config';
+import {base} from '../../constants/Theme';
+import Logo from '../../assets/icons/search.svg';
 
 const Landing = () => {
   const {heightPercentageToDP, widthPercentageToDP} = useResponsiveHelper();
+  const {isLandscape} = useDimensions();
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -31,7 +38,11 @@ const Landing = () => {
             <AppTitle style={[{fontSize: heightPercentageToDP(10)}]}>
               Tap2sell
             </AppTitle>
-            <Subtitle>Sell Your Used Mobile Online for Instant Cash</Subtitle>
+            <Text type="muted center">
+              <Subtitle>Sell Your Used</Subtitle>
+              <Text>{isLandscape || Config.isTablet ? '\t' : '\n'}</Text>
+              <Subtitle>Mobile Online for Instant Cash</Subtitle>
+            </Text>
           </LogoContainer>
           <InputAndButtonContainer>
             <Input
@@ -42,7 +53,19 @@ const Landing = () => {
               placeholder="Password"
               leftIcon={<PasswordIcon size={widthPercentageToDP(tinyIcon)} />}
             />
-            <Text type="bold primary small center">FORGOT PASSWORD?</Text>
+            <ForgotPassword type="bold primary small center">
+              FORGOT PASSWORD?
+            </ForgotPassword>
+            <Button title="LOG IN" />
+            <Text
+              type="muted center"
+              style={{
+                marginVertical: `${base}%`,
+              }}>
+              or connect with
+            </Text>
+            <Logo width={120} height={40} />
+            <Text type="center">I'll do it Later..</Text>
           </InputAndButtonContainer>
         </Container>
       </ScrollView>

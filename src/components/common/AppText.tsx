@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {ReactNode, CSSProperties} from 'react';
 import {StyleSheet} from 'react-native';
 import {Text, withTheme, ThemeProps} from 'react-native-elements';
 import {getFontStyleObject} from '../../utils/styles/fonts';
-import styled, {CSSProperties} from 'styled-components';
 import {IColour} from '../../constants/Theme/colors';
 
 interface IProps
@@ -11,7 +10,7 @@ interface IProps
       colors: IColour;
     }>
   > {
-  children: string;
+  children: string | ReactNode;
   style?: CSSProperties;
   type?: string;
 }
@@ -49,6 +48,7 @@ interface IStyles {
   center: any;
   primary: any;
   small: any;
+  muted: any;
 }
 
 const styles: IStyles = {
@@ -60,16 +60,15 @@ const styles: IStyles = {
     ...getFontStyleObject({family: 'Lato', weight: 'Bold'}),
   },
   primary: (theme: any) => ({
-    color: theme.colors.secondary,
+    color: theme.colors.primary,
   }),
   small: {
-    fontSize: 16,
+    fontSize: 14,
   },
   center: {
     textAlign: 'center',
   },
+  muted: (theme: any) => ({
+    color: theme.colors.grey2,
+  }),
 };
-
-export const CenteredText = styled(AppText)`
-  text-align: center;
-`;

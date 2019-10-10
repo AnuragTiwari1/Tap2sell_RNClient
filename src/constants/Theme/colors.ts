@@ -21,7 +21,7 @@ export const colors: IColour = {
   secondary: '#00D09E',
   grey0: '#121212',
   grey1: '#1a1a1a',
-  grey2: '#353535',
+  grey2: '#BFBFBF',
   grey3: '#D9D9D9',
   grey4: '#cfcfcf',
   grey5: '#f8f8f8',
