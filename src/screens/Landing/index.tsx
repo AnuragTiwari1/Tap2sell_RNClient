@@ -70,7 +70,7 @@ const Landing = () => {
             <Text
               type="center"
               style={{
-                marginVertical: `${base}%`,
+                marginBottom: `${base}%`,
               }}>
               I'll do it Later..
             </Text>
