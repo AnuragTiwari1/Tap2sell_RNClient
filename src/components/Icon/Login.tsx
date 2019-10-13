@@ -1,17 +1,9 @@
 import React from 'react';
-import {Icon, IconProps, ThemeProps} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import {withTheme} from 'react-native-elements';
-import {IColour} from '../../constants/Theme/colors';
+import {IIcons} from './common';
 
-interface IIcons
-  extends Partial<IconProps>,
-    Partial<
-      ThemeProps<{
-        colors: IColour;
-      }>
-    > {}
-
-export const EmailIcon: React.FC<IIcons> = withTheme(({theme, ...rest}) => {
+export const EmailIcon = withTheme<IIcons>(({theme, ...rest}) => {
   return (
     <Icon
       name="envelope"
@@ -22,7 +14,7 @@ export const EmailIcon: React.FC<IIcons> = withTheme(({theme, ...rest}) => {
   );
 });
 
-export const PasswordIcon: React.FC<IIcons> = withTheme(({theme, ...rest}) => {
+export const PasswordIcon = withTheme<IIcons>(({theme, ...rest}) => {
   return (
     <Icon
       name="lock"

@@ -1,6 +1,5 @@
 import {colors, IColour} from './colors';
 import {getFontStyleObject} from '../../utils/styles/fonts';
-
 export interface IBasicTheme {
   colors: IColour;
 }
@@ -14,6 +13,7 @@ export const xLarge = 10;
 
 //specification
 export const buttonHeight = 48;
+export const headerHeight = 55;
 export const borderRadius = 6;
 
 // TODO: add Theme types
@@ -47,6 +47,24 @@ const elements = {
     titleStyle: {
       ...getFontStyleObject({family: 'Lato', weight: 'Bold'}),
     },
+  },
+  SearchBar: {
+    containerStyle: {
+      backgroundColor: '#FFF',
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      padding: 0,
+    },
+    inputContainerStyle: {
+      borderRadius,
+      borderWidth: 0,
+      shadowColor: '#000',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 1,
+    },
+    searchIcon: null,
   },
 };
 

@@ -29,7 +29,7 @@ export const colors: IColour = {
   error: '#dc3545',
   warning: '#ffc107',
   greyOutline: '#D9D9D9',
-  searchBg: '#FFFFFF',
+  searchBg: '#F7F7F7',
   divider: '#D9D9D9',
   blue: '#2475D2',
 };

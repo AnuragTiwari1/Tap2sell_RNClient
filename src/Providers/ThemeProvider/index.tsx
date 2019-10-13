@@ -1,7 +1,15 @@
 import React from 'react';
 import {ThemeProvider as ElementsThemeProvider} from 'react-native-elements';
 import {ThemeProvider as StyledThemeProvider} from 'styled-components';
-import {ITheme} from '../../constants/Theme';
+import {
+  ITheme,
+  xTiny,
+  tiny,
+  small,
+  base,
+  large,
+  xLarge,
+} from '../../constants/Theme';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 
 export const ThemeProvider = ({
@@ -12,8 +20,8 @@ export const ThemeProvider = ({
   children: React.ReactElement;
 }): React.ReactElement<any> => {
   const {widthPercentageToDP} = useResponsiveHelper();
+
   if (theme.styled && theme.styled.spacing) {
-    const {xTiny, tiny, small, base, large, xLarge} = theme.styled.spacing;
     theme.styled.spacing = {
       xTiny: widthPercentageToDP(xTiny),
       tiny: widthPercentageToDP(tiny),

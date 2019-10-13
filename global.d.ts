@@ -1,11 +1,8 @@
-// declare module here which are missinf @types
-declare module 'react-native-motion';
+// declare module here which are missing @types
 
-import 'styled-components';
-import {IBasicTheme, IStyledTheme} from './src/constants/Theme';
-declare module 'styled-components' {
-  export interface DefaultTheme {
-    basic: IBasicTheme;
-    styled: IStyledTheme;
-  }
+declare module '*.svg' {
+  const content: any;
+  export default content;
 }
+declare module 'react-native-motion';
+declare module 'react-native-offline';

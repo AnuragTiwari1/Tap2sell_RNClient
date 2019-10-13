@@ -1,5 +1,5 @@
-import React, {ReactNode, CSSProperties} from 'react';
-import {StyleSheet} from 'react-native';
+import React, {ReactNode} from 'react';
+import {StyleSheet, TextStyle} from 'react-native';
 import {Text, withTheme, ThemeProps} from 'react-native-elements';
 import {getFontStyleObject} from '../../utils/styles/fonts';
 import {IColour} from '../../constants/Theme/colors';
@@ -11,7 +11,7 @@ interface IProps
     }>
   > {
   children: string | ReactNode;
-  style?: CSSProperties;
+  style?: TextStyle;
   type?: string;
 }
 
@@ -49,6 +49,7 @@ interface IStyles {
   primary: any;
   small: any;
   muted: any;
+  header: any;
 }
 
 const styles: IStyles = {
@@ -71,4 +72,9 @@ const styles: IStyles = {
   muted: (theme: any) => ({
     color: theme.colors.grey2,
   }),
+  header: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: '700',
+  },
 };
