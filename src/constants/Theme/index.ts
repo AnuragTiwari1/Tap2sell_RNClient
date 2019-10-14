@@ -15,6 +15,8 @@ export const xLarge = 10;
 export const buttonHeight = 48;
 export const headerHeight = 55;
 export const borderRadius = 6;
+export const borderRadiusLarge = 15;
+export const OfferCardWidth = 37;
 
 // TODO: add Theme types
 const elements = {
@@ -77,6 +79,9 @@ export interface IStyledTheme {
     large: number;
     xLarge: number;
   };
+  specification: {
+    OfferCardWidth: number;
+  };
 }
 export interface ITheme {
   basic: IBasicTheme;
@@ -96,6 +101,9 @@ export const Theme: ITheme = {
       base,
       large,
       xLarge,
+    },
+    specification: {
+      OfferCardWidth,
     },
   },
   elements,

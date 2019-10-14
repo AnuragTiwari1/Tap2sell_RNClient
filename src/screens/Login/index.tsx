@@ -19,7 +19,7 @@ import Config from '../../Config';
 import {base} from '../../constants/Theme';
 import Logo from '../../assets/icons/search.svg';
 
-const Login = () => {
+const Login = ({setScreen}) => {
   const {heightPercentageToDP, widthPercentageToDP} = useResponsiveHelper();
   const {isLandscape} = useDimensions();
 
@@ -49,7 +49,7 @@ const Login = () => {
             <ForgotPassword type="bold primary small center">
               FORGOT PASSWORD?
             </ForgotPassword>
-            <Button title="LOG IN" />
+            <Button title="LOG IN" onPress={() => setScreen('landing')} />
             <Text
               type="muted center"
               style={{

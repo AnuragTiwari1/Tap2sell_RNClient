@@ -9,6 +9,7 @@ import {
   base,
   large,
   xLarge,
+  OfferCardWidth,
 } from '../../constants/Theme';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 
@@ -21,7 +22,7 @@ export const ThemeProvider = ({
 }): React.ReactElement<any> => {
   const {widthPercentageToDP} = useResponsiveHelper();
 
-  if (theme.styled && theme.styled.spacing) {
+  if (theme.styled) {
     theme.styled.spacing = {
       xTiny: widthPercentageToDP(xTiny),
       tiny: widthPercentageToDP(tiny),
@@ -29,6 +30,9 @@ export const ThemeProvider = ({
       base: widthPercentageToDP(base),
       large: widthPercentageToDP(large),
       xLarge: widthPercentageToDP(xLarge),
+    };
+    theme.styled.specification = {
+      OfferCardWidth: widthPercentageToDP(OfferCardWidth),
     };
   }
 

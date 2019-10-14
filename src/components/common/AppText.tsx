@@ -50,6 +50,10 @@ interface IStyles {
   small: any;
   muted: any;
   header: any;
+  white: any;
+  dullWhite: any;
+  base: any;
+  'bold-italic': any;
 }
 
 const styles: IStyles = {
@@ -63,8 +67,17 @@ const styles: IStyles = {
   primary: (theme: any) => ({
     color: theme.colors.primary,
   }),
+  white: {
+    color: '#ffffff',
+  },
+  dullWhite: {
+    color: '#FBEFE1',
+  },
   small: {
     fontSize: 14,
+  },
+  base: {
+    fontSize: 17,
   },
   center: {
     textAlign: 'center',
@@ -76,5 +89,8 @@ const styles: IStyles = {
     textAlign: 'center',
     fontSize: 25,
     fontWeight: '700',
+  },
+  'bold-italic': {
+    ...getFontStyleObject({family: 'Lato', weight: 'BoldItalic'}),
   },
 };

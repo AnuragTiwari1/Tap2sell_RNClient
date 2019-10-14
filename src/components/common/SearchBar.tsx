@@ -4,28 +4,42 @@ import {Input, InputProps} from 'react-native-elements';
 import {Animated} from 'react-native';
 import {SearchIcon, baseIcon, ClearIcon} from '../Icon/common';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
+import {getFontStyleObject} from '../../utils/styles/fonts';
 
 export const SearchBar = (props: InputProps) => {
   const [isEmpty, setEmpty] = React.useState(!props.value);
+  //FIXME:
+  const input = React.useRef({} as any);
   React.useEffect(() => {
     setEmpty(!props.value);
   }, [props.value]);
 
   const {widthPercentageToDP} = useResponsiveHelper();
+
   return (
     <SearchContainer>
       {/*
         //FIXME: fix the type here
       */}
       <StyledInput
+        ref={input}
         rightIcon={
           <IconContainer>
             {isEmpty ? (
               <SearchIcon size={widthPercentageToDP(baseIcon)} />
             ) : (
-              <RotatedInAndOutView>
-                <ClearIcon size={widthPercentageToDP(baseIcon)} />
-              </RotatedInAndOutView>
+              <RotatedInView>
+                <ClearIcon
+                  size={widthPercentageToDP(baseIcon)}
+                  underlayColor="#F7F7F7"
+                  onPress={() => {
+                    input.current.clear();
+                    if (typeof props.onChangeText === 'function') {
+                      props.onChangeText('');
+                    }
+                  }}
+                />
+              </RotatedInView>
             )}
           </IconContainer>
         }
@@ -53,6 +67,7 @@ const StyledInput = styled(Input).attrs(props => ({
   },
   inputStyle: {
     marginLeft: 10,
+    ...getFontStyleObject({family: 'Lato', weight: 'Bold'}),
   },
 }))``;
 
@@ -60,7 +75,7 @@ const IconContainer = styled.View`
   margin-right: ${props => props.theme.styled.spacing.tiny}px;
 `;
 
-const RotatedInAndOutView = ({
+const RotatedInView = ({
   children,
   initialAngle = 0,
   finalAngle = 90,

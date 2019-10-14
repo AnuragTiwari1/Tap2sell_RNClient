@@ -25,13 +25,15 @@ const fonts = {
     weights: {
       Regular: '400',
       Bold: '900',
+      Italic: '400',
+      BoldItalic: '900',
     } as IWeights,
   },
 };
 
 interface IParams {
   family?: 'DenkOne' | 'Lato';
-  weight?: 'Regular' | 'Bold';
+  weight?: 'Regular' | 'Bold' | 'Italic' | 'BoldItalic';
 }
 
 export const getFontStyleObject = (params: IParams = {}) => {
