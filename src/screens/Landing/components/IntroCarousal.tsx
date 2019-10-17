@@ -4,36 +4,46 @@ import {
   IntroContainer,
   CarousalContainer,
   ImageContainer,
-  CarousalCard,
   IconAssetsContainer,
   TextContainer,
   Image,
+  StyledCarousel,
 } from './IntroCarousalStyles';
-import {Avatar} from 'react-native-elements';
+import {Avatar, withTheme, ThemeProps} from 'react-native-elements';
 import {View} from 'react-native';
 import {useResponsiveHelper} from '../../../utils/styles/responsive';
 import Svg, {Line} from 'react-native-svg';
 import Phone from '../../../assets/icons/smartphone.svg';
 import Tablet from '../../../assets/icons/tablet.svg';
 import Television from '../../../assets/icons/television.svg';
+import {Pagination} from 'react-native-snap-carousel';
 
+interface ICardItem {
+  title: string;
+  body: string;
+}
 export const IntroCarousal = () => {
   const {widthPercentageToDP} = useResponsiveHelper();
   return (
     <IntroContainer>
       <Text type="bold">How it Works ?</Text>
-      <CarousalContainer>
-        <CarousalCard>
-          <IconAssets />
-          <TextContainer>
-            <Text type="bold dullWhite header">Get Your Device Price</Text>
-            <Text type="dullWhite base">
-              We'll help you unlock the best selling price based on the present
-              condition of your gadget and the current market price
-            </Text>
-          </TextContainer>
-        </CarousalCard>
-      </CarousalContainer>
+
+      <MyCarousel
+        data={[
+          {
+            title: 'Get Your Device Price',
+            body: `We'll help you unlock the best selling price based on the present condition of your gadget and the current market price`,
+          },
+          {
+            title: 'Schedule Free Pickup',
+            body: `On accepting the price offered for your device, we'll arrange a free pick up`,
+          },
+          {
+            title: 'Get Paid Instantly',
+            body: `Instant Cash will be handed over to you at time of pickup or through payment mode of your choice`,
+          },
+        ]}
+      />
 
       <Text type="bold">Sell Your Gadgets</Text>
       <ImageContainer>
@@ -69,19 +79,93 @@ export const IntroCarousal = () => {
   );
 };
 
-const IconAssets = () => {
-  const {widthPercentageToDP} = useResponsiveHelper();
+const MyCarousel = ({data}: {data: ICardItem[]}) => {
+  const [index, setIndex] = React.useState(0);
+  const _renderItem = ({item}: {item: ICardItem}) => {
+    return (
+      <TextContainer>
+        <Text type="bold dullWhite header">{item.title}</Text>
+        <Text type="white bold base">{item.body}</Text>
+      </TextContainer>
+    );
+  };
+
   return (
-    <IconAssetsContainer>
-      <Avatar rounded size={widthPercentageToDP(12)} />
-      <Svg width="8" height="100">
-        <Line x1="0" y1="15" x2="0" y2="85" stroke="#DEDEDE" strokeWidth="7" />
-      </Svg>
-    </IconAssetsContainer>
+    <>
+      <CarousalContainer>
+        <View style={{flexDirection: 'row'}}>
+          <IconAssets index={index} />
+          <StyledCarousel
+            data={data}
+            renderItem={_renderItem}
+            onSnapToItem={setIndex}
+          />
+        </View>
+        <Pagination
+          dotsLength={3}
+          activeDotIndex={index}
+          containerStyle={{
+            width: 36,
+            height: 15,
+            paddingVertical: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+          }}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          }}
+          inactiveDotStyle={
+            {
+              // Define styles for inactive dots here
+            }
+          }
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+      </CarousalContainer>
+    </>
   );
 };
 
-const Gadget = ({name, svgIcon}) => {
+const IconAssets = withTheme(
+  (props: {index: number} & Partial<ThemeProps<any>>) => {
+    const {widthPercentageToDP} = useResponsiveHelper();
+    const {primary} = props.theme.colors || {primary: 'green'};
+    const icons = ['rupee', 'shopping-cart', 'money'];
+
+    return (
+      <IconAssetsContainer>
+        <Avatar
+          rounded
+          overlayContainerStyle={{
+            backgroundColor: primary,
+          }}
+          icon={{
+            name: `${icons[props.index % icons.length]}`,
+            type: 'font-awesome',
+            color: 'white',
+            size: widthPercentageToDP(8),
+          }}
+          size={widthPercentageToDP(12)}
+        />
+        <Svg width="8" height="100">
+          <Line
+            x1="0"
+            y1="15"
+            x2="0"
+            y2="85"
+            stroke="#FDFDFD"
+            strokeWidth="7"
+          />
+        </Svg>
+      </IconAssetsContainer>
+    );
+  },
+);
+
+const Gadget = ({name, svgIcon}: {name: string; svgIcon: any}) => {
   return (
     <View
       style={{

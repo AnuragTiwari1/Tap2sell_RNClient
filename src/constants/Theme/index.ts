@@ -81,6 +81,7 @@ export interface IStyledTheme {
   };
   specification: {
     OfferCardWidth: number;
+    carouselWidth: number;
   };
 }
 export interface ITheme {

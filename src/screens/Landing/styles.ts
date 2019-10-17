@@ -23,14 +23,15 @@ export const OfferContainer = styled.View`
 export const OfferCardScroll = styled.ScrollView.attrs(() => ({
   contentContainerStyle: {height: '100%'},
   horizontal: true,
+  showsHorizontalScrollIndicator: false,
 }))`
   margin-top: ${props => props.theme.styled.spacing.small};
 `;
 
-export const OfferCard = styled.View`
+export const OfferCard = styled.View<{index: number}>`
   border-radius: ${borderRadius};
   padding: ${props => props.theme.styled.spacing.small}px;
-  background-color: ${props => color[props.index]};
+  background-color: ${props => color[props.index % 3]};
   margin-horizontal: ${props => props.theme.styled.spacing.small};
   max-width: ${props => props.theme.styled.specification.OfferCardWidth};
   min-height: 100%;

@@ -63,6 +63,18 @@ export const Landing = () => {
               text="This is the most the most exciting offer only for you grab this
                 one."
             />
+            <OfferListItems
+              index={3}
+              iconName="tag"
+              text="This is the most the most exciting offer only for you grab this
+                one."
+            />
+            <OfferListItems
+              index={4}
+              iconName="tag"
+              text="This is the most the most exciting offer only for you grab this
+                one."
+            />
           </OfferCardScroll>
         </OfferContainer>
       </View>

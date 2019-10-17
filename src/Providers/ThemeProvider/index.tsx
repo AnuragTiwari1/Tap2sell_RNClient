@@ -12,6 +12,7 @@ import {
   OfferCardWidth,
 } from '../../constants/Theme';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
+import {useDimensions} from '../DimensionProvider';
 
 export const ThemeProvider = ({
   theme,
@@ -20,7 +21,8 @@ export const ThemeProvider = ({
   theme: ITheme;
   children: React.ReactElement;
 }): React.ReactElement<any> => {
-  const {widthPercentageToDP} = useResponsiveHelper();
+  const {widthPercentageToDP, heightPercentageToDP} = useResponsiveHelper();
+  const {isLandscape} = useDimensions();
 
   if (theme.styled) {
     theme.styled.spacing = {
@@ -32,7 +34,12 @@ export const ThemeProvider = ({
       xLarge: widthPercentageToDP(xLarge),
     };
     theme.styled.specification = {
-      OfferCardWidth: widthPercentageToDP(OfferCardWidth),
+      OfferCardWidth: isLandscape
+        ? heightPercentageToDP(OfferCardWidth)
+        : widthPercentageToDP(OfferCardWidth),
+      carouselWidth: isLandscape
+        ? heightPercentageToDP(70)
+        : widthPercentageToDP(70),
     };
   }
 
