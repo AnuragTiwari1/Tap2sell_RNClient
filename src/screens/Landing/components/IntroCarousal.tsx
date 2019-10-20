@@ -88,7 +88,7 @@ const MyCarousel = ({data}: {data: ICardItem[]}) => {
   const _renderItem = ({item}: {item: ICardItem}) => {
     return (
       <TextContainer>
-        <Text type="bold dullWhite header">{item.title}</Text>
+        <Text type="bold white header">{item.title}</Text>
         <Text type="white bold base">{item.body}</Text>
       </TextContainer>
     );

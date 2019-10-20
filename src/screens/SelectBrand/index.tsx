@@ -2,41 +2,38 @@ import React from 'react';
 import {AppText as Text} from '../../components/common/AppText';
 import {ScrollView, View, FlatList} from 'react-native';
 import {ScreenMainContainer} from '../Landing/styles';
-import {useResponsiveHelper} from '../../utils/styles/responsive';
 import styled from 'styled-components/native';
 import {Routes} from '../../router/routes';
 import {SearchBar} from '../../components/common/SearchBar';
 import {SharedElement} from 'react-native-motion';
 import {constant} from '../../Config';
+import {base} from '../../constants/Theme';
 
 export const SelectBrand = (props: any) => {
-  const {heightPercentageToDP} = useResponsiveHelper();
   const [searchText, setSearchText] = React.useState('');
   return (
-    <ScrollView>
-      <View style={{minHeight: heightPercentageToDP(100)}}>
-        <ScreenMainContainer>
-          <Headline type="bold center xLarge" style={{fontWeight: '900'}}>
-            Choose Your Brand
-          </Headline>
-          <SearchText type="center">What'd you like to choose ?</SearchText>
-          <SharedElement id={constant.searchBarId}>
-            <View>
-              <SearchBar
-                value={searchText}
-                onChangeText={setSearchText}
-                placeholder="Search your device here..."
-                onFocus={() =>
-                  props.navigation.navigate(Routes.selectDevice, {
-                    activateSearch: true,
-                  })
-                }
-              />
-            </View>
-          </SharedElement>
-          <ChooseBrand navigation={props.navigation} />
-        </ScreenMainContainer>
-      </View>
+    <ScrollView stickyHeaderIndices={[2]}>
+      <Headline type="bold center xLarge" style={{fontWeight: '900'}}>
+        Choose Your Brand
+      </Headline>
+      <SearchText type="center">What'd you like to choose ?</SearchText>
+      <SharedElement id={constant.searchBarId}>
+        <View style={{marginHorizontal: `${base}%`}}>
+          <SearchBar
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder="Search your device here..."
+            onFocus={() =>
+              props.navigation.navigate(Routes.selectDevice, {
+                activateSearch: true,
+              })
+            }
+          />
+        </View>
+      </SharedElement>
+      <ScreenMainContainer>
+        <ChooseBrand navigation={props.navigation} />
+      </ScreenMainContainer>
     </ScrollView>
   );
 };

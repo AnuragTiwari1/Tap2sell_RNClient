@@ -6,7 +6,7 @@ import {SearchIcon, baseIcon, ClearIcon} from '../Icon/common';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 import {getFontStyleObject} from '../../utils/styles/fonts';
 
-export const SearchBar = (props: InputProps & {getFocus: boolean}) => {
+export const SearchBar = (props: InputProps & {getFocus?: boolean}) => {
   const [isEmpty, setEmpty] = React.useState(!props.value);
   //FIXME:
   const input = React.useRef({} as any);
