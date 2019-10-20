@@ -14,23 +14,34 @@ import {InputProps, Icon} from 'react-native-elements';
 import {IntroCarousal} from './components/IntroCarousal';
 import {base, small} from '../../constants/Theme';
 import {smallIcon} from '../../components/Icon/common';
+import {constant} from '../../Config';
+import {SharedElement} from 'react-native-motion';
+import {Routes} from '../../router/routes';
 
-export const Landing = () => {
+export const Landing = (props: any) => {
   const {heightPercentageToDP} = useResponsiveHelper();
   const [searchText, setSearchText] = React.useState('');
 
   return (
     <ScrollView>
       <View style={[{minHeight: heightPercentageToDP(100)}]}>
-        <Header />
         <ScreenMainContainer>
           <Text type="bold">Want to sell your gadget?</Text>
-          <AnimatedSearchBar
-            value={searchText}
-            onChangeText={setSearchText}
-            placeholder="Search your device here..."
-          />
-          <IntroCarousal />
+          <SharedElement id={constant.searchBarId}>
+            <View>
+              <AnimatedSearchBar
+                value={searchText}
+                onChangeText={setSearchText}
+                placeholder="Search your device here..."
+                onFocus={() =>
+                  props.navigation.navigate(Routes.selectDevice, {
+                    activateSearch: true,
+                  })
+                }
+              />
+            </View>
+          </SharedElement>
+          <IntroCarousal navigation={props.navigation} />
         </ScreenMainContainer>
         <OfferContainer>
           <View
@@ -108,7 +119,7 @@ const OfferListItems = ({
   );
 };
 
-const Header = () => {
+export const Header = () => {
   return (
     <HeaderContainer>
       <Text type="header bold">Tap2sell</Text>
@@ -116,6 +127,6 @@ const Header = () => {
   );
 };
 
-const AnimatedSearchBar = (props: InputProps) => {
+export const AnimatedSearchBar = (props: InputProps) => {
   return <SearchBar {...props} />;
 };

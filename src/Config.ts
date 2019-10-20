@@ -6,3 +6,7 @@ export default {
   logNetworkErrors: false,
   isTablet: false,
 };
+
+export const constant = {
+  searchBarId: 'searchBarId',
+};

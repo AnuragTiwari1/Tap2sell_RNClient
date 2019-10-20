@@ -18,8 +18,9 @@ import {useDimensions} from '../../Providers/DimensionProvider';
 import Config from '../../Config';
 import {base} from '../../constants/Theme';
 import Logo from '../../assets/icons/search.svg';
+import {Routes} from '../../router/routes';
 
-const Login = ({setScreen}) => {
+const Login = (props: any) => {
   const {heightPercentageToDP, widthPercentageToDP} = useResponsiveHelper();
   const {isLandscape} = useDimensions();
 
@@ -49,7 +50,7 @@ const Login = ({setScreen}) => {
             <ForgotPassword type="bold primary small center">
               FORGOT PASSWORD?
             </ForgotPassword>
-            <Button title="LOG IN" onPress={() => setScreen('landing')} />
+            <Button title="LOG IN" onPress={() => {}} />
             <Text
               type="muted center"
               style={{
@@ -64,6 +65,9 @@ const Login = ({setScreen}) => {
               type="center"
               style={{
                 marginBottom: `${base}%`,
+              }}
+              onPress={() => {
+                props.navigation.navigate(Routes.landing);
               }}>
               I'll do it Later..
             </Text>

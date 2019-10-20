@@ -1,15 +1,16 @@
 import React, {ReactNode} from 'react';
-import {StyleSheet, TextStyle} from 'react-native';
+import {StyleSheet, TextStyle, TextProps} from 'react-native';
 import {Text, withTheme, ThemeProps} from 'react-native-elements';
 import {getFontStyleObject} from '../../utils/styles/fonts';
 import {IColour} from '../../constants/Theme/colors';
 
 interface IProps
   extends Partial<
-    ThemeProps<{
-      colors: IColour;
-    }>
-  > {
+      ThemeProps<{
+        colors: IColour;
+      }>
+    >,
+    TextProps {
   children: string | ReactNode;
   style?: TextStyle;
   type?: string;
@@ -30,9 +31,9 @@ export const AppText = withTheme((props: IProps) => {
     //to comply with styled components style all styles must be array
     StyleSheet.flatten([
       styles.text,
-      style,
       // FIXME: fix e type must be some key of IStyles
       type.split(' ').map(e => getType(e, theme)),
+      style,
     ]),
   ];
   return (
@@ -54,6 +55,8 @@ interface IStyles {
   dullWhite: any;
   base: any;
   'bold-italic': any;
+  xLarge: any;
+  large: any;
 }
 
 const styles: IStyles = {
@@ -78,6 +81,12 @@ const styles: IStyles = {
   },
   base: {
     fontSize: 17,
+  },
+  xLarge: {
+    fontSize: 30,
+  },
+  large: {
+    fontSize: 22,
   },
   center: {
     textAlign: 'center',

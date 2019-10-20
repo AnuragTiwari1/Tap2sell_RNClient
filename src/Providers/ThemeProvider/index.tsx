@@ -10,6 +10,8 @@ import {
   large,
   xLarge,
   OfferCardWidth,
+  carousalWidth,
+  brandLogoWidth,
 } from '../../constants/Theme';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 import {useDimensions} from '../DimensionProvider';
@@ -38,8 +40,9 @@ export const ThemeProvider = ({
         ? heightPercentageToDP(OfferCardWidth)
         : widthPercentageToDP(OfferCardWidth),
       carouselWidth: isLandscape
-        ? heightPercentageToDP(70)
-        : widthPercentageToDP(70),
+        ? heightPercentageToDP(carousalWidth)
+        : widthPercentageToDP(carousalWidth),
+      brandLogoWidth: widthPercentageToDP(brandLogoWidth),
     };
   }
 

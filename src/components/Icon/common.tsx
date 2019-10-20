@@ -20,3 +20,9 @@ export const SearchIcon = withTheme<IIcons>(props => {
 export const ClearIcon = withTheme<IIcons>(props => {
   return <Icon name="clear" type="material" color="#939393" {...props} />;
 });
+
+export const BackIcon = withTheme<IIcons>(props => {
+  return (
+    <Icon name="md-arrow-round-back" type="ionicon" color="black" {...props} />
+  );
+});

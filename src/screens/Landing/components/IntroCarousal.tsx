@@ -10,19 +10,20 @@ import {
   StyledCarousel,
 } from './IntroCarousalStyles';
 import {Avatar, withTheme, ThemeProps} from 'react-native-elements';
-import {View} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {useResponsiveHelper} from '../../../utils/styles/responsive';
 import Svg, {Line} from 'react-native-svg';
 import Phone from '../../../assets/icons/smartphone.svg';
 import Tablet from '../../../assets/icons/tablet.svg';
 import Television from '../../../assets/icons/television.svg';
 import {Pagination} from 'react-native-snap-carousel';
+import {Routes} from '../../../router/routes';
 
 interface ICardItem {
   title: string;
   body: string;
 }
-export const IntroCarousal = () => {
+export const IntroCarousal = (props: any) => {
   const {widthPercentageToDP} = useResponsiveHelper();
   return (
     <IntroContainer>
@@ -55,6 +56,7 @@ export const IntroCarousal = () => {
               height={widthPercentageToDP(10)}
             />
           }
+          onIconClick={() => props.navigation.navigate(Routes.selectBrand)}
         />
         <Gadget
           name="Tablet"
@@ -64,6 +66,7 @@ export const IntroCarousal = () => {
               height={widthPercentageToDP(10)}
             />
           }
+          onIconClick={() => props.navigation.navigate(Routes.selectBrand)}
         />
         <Gadget
           name="Television"
@@ -73,6 +76,7 @@ export const IntroCarousal = () => {
               height={widthPercentageToDP(10)}
             />
           }
+          onIconClick={() => props.navigation.navigate(Routes.selectBrand)}
         />
       </ImageContainer>
     </IntroContainer>
@@ -165,15 +169,24 @@ const IconAssets = withTheme(
   },
 );
 
-const Gadget = ({name, svgIcon}: {name: string; svgIcon: any}) => {
+const Gadget = ({
+  name,
+  svgIcon,
+  onIconClick,
+}: {
+  name: string;
+  svgIcon: any;
+  onIconClick: () => void;
+}) => {
   return (
-    <View
+    <TouchableOpacity
       style={{
         alignItems: 'center',
         justifyContent: 'space-around',
-      }}>
+      }}
+      onPress={onIconClick}>
       <Image>{svgIcon}</Image>
       <Text type="small center">{name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };

@@ -4,7 +4,7 @@ import {xLarge, base} from '../../constants/Theme';
 import {AppText} from '../../components/common/AppText';
 
 export const ScrollView = styled.ScrollView`
-  background-color: ${props => props.theme.basic.colors.searchBg};
+  background-color: #fff;
 `;
 
 export const Container = styled.View``;

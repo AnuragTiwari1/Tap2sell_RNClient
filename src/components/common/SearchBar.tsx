@@ -6,13 +6,19 @@ import {SearchIcon, baseIcon, ClearIcon} from '../Icon/common';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 import {getFontStyleObject} from '../../utils/styles/fonts';
 
-export const SearchBar = (props: InputProps) => {
+export const SearchBar = (props: InputProps & {getFocus: boolean}) => {
   const [isEmpty, setEmpty] = React.useState(!props.value);
   //FIXME:
   const input = React.useRef({} as any);
   React.useEffect(() => {
     setEmpty(!props.value);
   }, [props.value]);
+
+  React.useEffect(() => {
+    if (props.getFocus && input.current) {
+      input.current.focus();
+    }
+  }, [props.getFocus]);
 
   const {widthPercentageToDP} = useResponsiveHelper();
 
