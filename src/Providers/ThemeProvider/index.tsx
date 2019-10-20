@@ -12,6 +12,7 @@ import {
   OfferCardWidth,
   carousalWidth,
   brandLogoWidth,
+  deviceLogoHeight,
 } from '../../constants/Theme';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
 import {useDimensions} from '../DimensionProvider';
@@ -43,6 +44,7 @@ export const ThemeProvider = ({
         ? heightPercentageToDP(carousalWidth)
         : widthPercentageToDP(carousalWidth),
       brandLogoWidth: widthPercentageToDP(brandLogoWidth),
+      deviceLogoHeight: heightPercentageToDP(deviceLogoHeight),
     };
   }
 

@@ -37,7 +37,7 @@ const AppNavigator = createSwitchNavigator(
     ),
   },
   {
-    initialRouteName: 'AppRoutes',
+    initialRouteName: Routes.login,
   },
 );
 

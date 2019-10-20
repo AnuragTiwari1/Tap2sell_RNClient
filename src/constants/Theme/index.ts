@@ -19,6 +19,7 @@ export const borderRadiusLarge = 15;
 export const OfferCardWidth = 37;
 export const carousalWidth = 70;
 export const brandLogoWidth = 10;
+export const deviceLogoHeight = 15;
 
 // TODO: add Theme types
 const elements = {
@@ -85,6 +86,7 @@ export interface IStyledTheme {
     OfferCardWidth: number;
     carouselWidth: number;
     brandLogoWidth: number;
+    deviceLogoHeight: number;
   };
 }
 export interface ITheme {
@@ -110,6 +112,7 @@ export const Theme: ITheme = {
       OfferCardWidth,
       carouselWidth: carousalWidth,
       brandLogoWidth,
+      deviceLogoHeight,
     },
   },
   elements,
