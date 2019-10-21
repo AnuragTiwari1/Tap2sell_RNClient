@@ -19,8 +19,9 @@ import Config from '../../Config';
 import {base} from '../../constants/Theme';
 import Logo from '../../assets/icons/search.svg';
 import {Routes} from '../../router/routes';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
-const Login = (props: any) => {
+const Login: React.FC<NavigationStackScreenProps> = props => {
   const {heightPercentageToDP, widthPercentageToDP} = useResponsiveHelper();
   const {isLandscape} = useDimensions();
 

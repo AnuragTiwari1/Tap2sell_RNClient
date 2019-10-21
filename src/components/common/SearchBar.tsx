@@ -8,7 +8,7 @@ import {getFontStyleObject} from '../../utils/styles/fonts';
 
 export const SearchBar = (props: InputProps & {getFocus?: boolean}) => {
   const [isEmpty, setEmpty] = React.useState(!props.value);
-  //FIXME:
+
   const input = React.useRef({} as any);
   React.useEffect(() => {
     setEmpty(!props.value);
@@ -60,7 +60,6 @@ const SearchContainer = styled.View`
 `;
 
 const StyledInput = styled(Input).attrs(props => ({
-  containerStyle: {},
   inputContainerStyle: {
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},

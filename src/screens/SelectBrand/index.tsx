@@ -8,8 +8,12 @@ import {SearchBar} from '../../components/common/SearchBar';
 import {SharedElement} from 'react-native-motion';
 import {constant} from '../../Config';
 import {base} from '../../constants/Theme';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {useNavigation} from '../../hooks/useNavigation';
 
-export const SelectBrand = (props: any) => {
+export const SelectBrand: React.FC<
+  NavigationStackScreenProps<{activeSearch: boolean}>
+> = (props: any) => {
   const [searchText, setSearchText] = React.useState('');
   return (
     <ScrollView stickyHeaderIndices={[2]}>
@@ -32,7 +36,7 @@ export const SelectBrand = (props: any) => {
         </View>
       </SharedElement>
       <ScreenMainContainer>
-        <ChooseBrand navigation={props.navigation} />
+        <ChooseBrand />
       </ScreenMainContainer>
     </ScrollView>
   );
@@ -82,18 +86,19 @@ const BrandData: IBrandLogo[] = [
   },
 ];
 
-const ChooseBrand = (props: any) => {
+const ChooseBrand = () => {
+  const {navigate} = useNavigation();
   return (
     <ChooseBrandContainer
       data={BrandData}
-      renderItem={({item}) => (
+      renderItem={({item}: {item: IBrandLogo}) => (
         <BrandCard
           name={item.name}
           img={item.img}
-          onPress={() => props.navigation.navigate(Routes.selectDevice)}
+          onPress={() => navigate(Routes.selectDevice)}
         />
       )}
-      keyExtractor={item => item._id}
+      keyExtractor={(item: IBrandLogo) => item._id}
       numColumns={2}
     />
   );
@@ -130,7 +135,7 @@ const BrandLogo = styled.Image`
   margin-bottom: ${props => props.theme.styled.spacing.small};
 `;
 
-const ChooseBrandContainer = styled(FlatList)`
+const ChooseBrandContainer = styled(FlatList as new () => FlatList<IBrandLogo>)`
   width: 100%;
 `;
 

@@ -17,8 +17,9 @@ import {smallIcon} from '../../components/Icon/common';
 import {constant} from '../../Config';
 import {SharedElement} from 'react-native-motion';
 import {Routes} from '../../router/routes';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
-export const Landing = (props: any) => {
+export const Landing: React.FC<NavigationStackScreenProps> = props => {
   const {heightPercentageToDP} = useResponsiveHelper();
   const [searchText, setSearchText] = React.useState('');
 
