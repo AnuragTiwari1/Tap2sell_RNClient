@@ -3,4 +3,5 @@ export const Routes = {
   landing: 'LANDING',
   selectBrand: 'CHOOSE_BRAND',
   selectDevice: 'SELECT_DEVICE',
+  testDevice: 'TEST_DEVICE',
 };
