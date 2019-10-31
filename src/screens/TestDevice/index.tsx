@@ -4,12 +4,20 @@ import {
   BatteryModule,
   BluetoothModule,
   CameraModule,
+  AudioModule,
 } from '../../NativeModules';
-import {PermissionsAndroid} from 'react-native';
+import {
+  PermissionsAndroid,
+  NativeEventEmitter,
+  DeviceEventEmitter,
+} from 'react-native';
 
 export const TestScreen = () => {
   const [testName, setTestName] = React.useState('Bluetooth');
 
+  /**
+   * battery test
+   */
   // React.useEffect(() => {
   //   BatteryModule.getBatteryLevel().then(level => {
   //     console.log(level); // between 0 and 1
@@ -34,29 +42,65 @@ export const TestScreen = () => {
   //   DeviceBattery.removeListener(onBatteryStateChanged);
   // });
 
+  /**
+   * bluetooth test
+   */
   // React.useEffect(() => {
   //   BluetoothModule.isBluetoothWorking().then(console.log);
   // }, []);
 
-  React.useEffect(() => {
-    CameraModule.isFrontCameraWorking().then(console.log);
-  }, []);
+  /**
+   * camera test
+   */
+  // React.useEffect(() => {
+  //   CameraModule.isFrontCameraWorking().then(console.log);
+  // }, []);
 
+  // React.useEffect(() => {
+  //   requestCameraPermission().then(() => {
+  //     CameraModule.isBackCameraWorking().then(console.log);
+  //   });
+  // }, []);
+
+  // async function requestCameraPermission() {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.CAMERA,
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       // requestExternalWritePermission();
+  //     } else {
+  //       alert('CAMERA permission denied');
+  //     }
+  //   } catch (err) {
+  //     // alert('Camera permission err', err);
+  //     console.warn(err);
+  //   }
+  // }
+
+  /**
+   * Audio Test
+   */
   React.useEffect(() => {
-    requestCameraPermission().then(() => {
-      CameraModule.isBackCameraWorking().then(console.log);
+    requestMicPermission().then(() => {
+      const eventEmitter = new NativeEventEmitter(AudioModule);
+      eventEmitter.addListener('EventReminder', event => {
+        console.log(event.eventProperty); // "someValue"
+      });
+      // DeviceEventEmitter.addListener('EventReminder', console.log);
+      AudioModule.testMicrophone().then(console.log);
     });
   }, []);
 
-  async function requestCameraPermission() {
+  async function requestMicPermission() {
     try {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         // requestExternalWritePermission();
       } else {
-        alert('CAMERA permission denied');
+        alert('Microphone permission denied');
       }
     } catch (err) {
       // alert('Camera permission err', err);
