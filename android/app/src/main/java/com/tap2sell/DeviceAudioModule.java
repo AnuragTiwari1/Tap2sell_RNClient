@@ -1,5 +1,7 @@
 package com.tap2sell;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,7 +17,11 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.Random;
+
 public class DeviceAudioModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+    public static final String EVENT_NAME = "micAudioChange";
+
     private RecordingThread mRecordingThread;
     private ReactContext reactContext;
 
@@ -46,7 +52,7 @@ public class DeviceAudioModule extends ReactContextBaseJavaModule implements Lif
                 public void onAudioDataReceived(double data) {
                     WritableMap params = Arguments.createMap();
                     params.putDouble("eventProperty", data);
-                    sendEvent(reactContext, "EventReminder", params);
+                    sendEvent(reactContext, EVENT_NAME, params);
                 }
             });
         }
@@ -71,6 +77,35 @@ public class DeviceAudioModule extends ReactContextBaseJavaModule implements Lif
             Log.e("TrackingFlow", "Exception", e);
             promise.reject("something went wrong");
         }
+    }
+
+    @ReactMethod
+    public void testSpeaker(Promise promise){
+        int audioFile= new Random().nextInt(5);
+        int fileName;
+        if(audioFile==0){
+         fileName=R.raw.out000;
+        }else if(audioFile==1){
+            fileName=R.raw.out001;
+        } else if(audioFile==2){
+            fileName=R.raw.out002;
+        }else if(audioFile==3){
+            fileName=R.raw.out003;
+        }else {
+            fileName=R.raw.out004;
+        }
+        MediaPlayer mp = MediaPlayer.create(this.reactContext,fileName);
+        mp.start();
+        promise.resolve(audioFile+1);
+    }
+
+    @ReactMethod
+    public void isWiredHeadsetConnected(Promise promise) {
+        AudioManager mAudioMgr = (AudioManager)reactContext.getSystemService(reactContext.AUDIO_SERVICE);
+        if(mAudioMgr.isWiredHeadsetOn()){
+            promise.resolve(true);
+        }
+        else promise.resolve(false);
     }
 
     @Override

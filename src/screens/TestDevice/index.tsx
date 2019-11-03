@@ -84,11 +84,14 @@ export const TestScreen = () => {
   React.useEffect(() => {
     requestMicPermission().then(() => {
       const eventEmitter = new NativeEventEmitter(AudioModule);
-      eventEmitter.addListener('EventReminder', event => {
-        console.log(event.eventProperty); // "someValue"
+      eventEmitter.addListener('micAudioChange', event => {
+        console.log(event.eventProperty);
       });
-      // DeviceEventEmitter.addListener('EventReminder', console.log);
-      AudioModule.testMicrophone().then(console.log);
+
+      // AudioModule.testMicrophone().then(console.log);
+      // AudioModule.isWiredHeadsetConnected().then(console.log);
+      // BluetoothModule.isBluetoothHeadsetConnected().then(console.log);
+      AudioModule.testSpeaker().then(console.log);
     });
   }, []);
 

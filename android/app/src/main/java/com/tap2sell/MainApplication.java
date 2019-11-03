@@ -29,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
           packages.add(new DeviceBluetoothPackage());
           packages.add(new DeviceCameraPackage());
           packages.add(new DeviceAudioPackage());
+
           return packages;
         }
 

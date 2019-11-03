@@ -1,6 +1,7 @@
 package com.tap2sell;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothHeadset;
 
 import androidx.annotation.NonNull;
 
@@ -32,5 +33,12 @@ public class DeviceBluetoothModule extends ReactContextBaseJavaModule {
             promise.resolve(true);
 
         }
+    }
+
+    @ReactMethod
+    public void isBluetoothHeadsetConnected(Promise promise) {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+         promise.resolve(mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                 && mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED);
     }
 }
