@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 export const TestScreen = () => {
-  const [testName, setTestName] = React.useState('Bluetooth');
+  const [testName, setTestName] = React.useState('Speaker');
 
   /**
    * battery test
@@ -81,35 +81,61 @@ export const TestScreen = () => {
   /**
    * Audio Test
    */
-  React.useEffect(() => {
-    requestMicPermission().then(() => {
-      const eventEmitter = new NativeEventEmitter(AudioModule);
-      eventEmitter.addListener('micAudioChange', event => {
-        console.log(event.eventProperty);
-      });
+  // React.useEffect(() => {
+  //   requestMicPermission().then(() => {
+  //     const eventEmitter = new NativeEventEmitter(AudioModule);
+  //     eventEmitter.addListener('micAudioChange', event => {
+  //       console.log(event.eventProperty);
+  //     });
 
-      // AudioModule.testMicrophone().then(console.log);
-      // AudioModule.isWiredHeadsetConnected().then(console.log);
-      // BluetoothModule.isBluetoothHeadsetConnected().then(console.log);
-      AudioModule.testSpeaker().then(console.log);
+  //     // AudioModule.testMicrophone().then(console.log);
+  //     // AudioModule.isWiredHeadsetConnected().then(console.log);
+  //     // BluetoothModule.isBluetoothHeadsetConnected().then(console.log);
+  //     AudioModule.testSpeaker().then(console.log);
+  //   });
+  // }, []);
+
+  // async function requestMicPermission() {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       // requestExternalWritePermission();
+  //     } else {
+  //       alert('Microphone permission denied');
+  //     }
+  //   } catch (err) {
+  //     // alert('Camera permission err', err);
+  //     console.warn(err);
+  //   }
+  // }
+
+  /**
+   * vibration test
+   */
+  // React.useEffect(() => {
+  //   AudioModule.testVibration().then(console.log); //will always return 2
+  // }, []);
+
+  /**
+   * volume button test
+   */
+  React.useEffect(() => {
+    const eventEmitter = new NativeEventEmitter(AudioModule);
+    eventEmitter.addListener('buttonPress', event => {
+      console.log(event.volumeUp, event.volumeDown);
     });
   }, []);
 
-  async function requestMicPermission() {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // requestExternalWritePermission();
-      } else {
-        alert('Microphone permission denied');
-      }
-    } catch (err) {
-      // alert('Camera permission err', err);
-      console.warn(err);
-    }
-  }
-
-  return <Text>{testName}</Text>;
+  return (
+    <Text
+      onPress={() => {
+        // AudioModule.replay()
+        //   .then(console.log)
+        //   .catch(console.log);
+      }}>
+      {testName}
+    </Text>
+  );
 };

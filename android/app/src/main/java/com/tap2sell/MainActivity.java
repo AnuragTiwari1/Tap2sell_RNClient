@@ -1,5 +1,7 @@
 package com.tap2sell;
 
+import android.view.KeyEvent;
+
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -11,5 +13,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "Tap2Sell";
+  }
+
+  @Override
+  // catches the onKeyDown button event
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    return DeviceAudioModule.getInstance().onKeyDownEvent(keyCode,event);
   }
 }

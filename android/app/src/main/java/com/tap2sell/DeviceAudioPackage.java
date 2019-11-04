@@ -16,7 +16,7 @@ public class DeviceAudioPackage implements ReactPackage{
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
         List<NativeModule> modules = new ArrayList<NativeModule>();
-        modules.add(new DeviceAudioModule(reactApplicationContext));
+        modules.add(DeviceAudioModule.initModule(reactApplicationContext));
         return modules;
     }
 
