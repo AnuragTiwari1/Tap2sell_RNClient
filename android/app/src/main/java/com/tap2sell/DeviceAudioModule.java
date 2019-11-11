@@ -114,6 +114,11 @@ public class DeviceAudioModule extends ReactContextBaseJavaModule implements Lif
     }
 
     @ReactMethod
+    public void stopRecording(){
+        maybeStopRecording();
+    }
+
+    @ReactMethod
     public void testSpeaker(Promise promise){
         audioFile= new Random().nextInt(5);
         int fileName=getIndexedFile(audioFile);

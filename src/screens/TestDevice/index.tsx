@@ -209,8 +209,8 @@ const AskForTest = () => {
   }, [step]);
 
   React.useEffect(() => {
-    if (sensorStatus === 'pass') setTimeout(() => setStep(step + 1), 3000);
-  }, [sensorStatus, step]);
+    if (sensorStatus === 'pass') setTimeout(() => setStep(step + 1), 1500);
+  }, [sensorStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ScrollView>
@@ -386,17 +386,25 @@ const TestMicrophone = ({
                       },
                     ],
                   );
-              } else handleStatusChange('pass');
+                isAlertActive.current = true;
+              } else {
+                handleStatusChange('pass');
+                AudioModule.stopRecording();
+              }
             });
+          } else if (event.eventProperty === 'NaN') {
+            Alert.alert('Caught Error');
+            AudioModule.stopRecording();
           }
         });
         AudioModule.testMicrophone();
 
         // BluetoothModule.isBluetoothHeadsetConnected().then(console.log);
         // AudioModule.testSpeaker().then(console.log);
+        return eventEmitter.removeListener('micAudioChange', () => {});
       })
       .catch(() => handleStatusChange('failed'));
-  }, [handleStatusChange]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(() => {
     handleStatusChange('pending');
@@ -564,11 +572,11 @@ const BasicSensorTest = withTheme<{
           .catch(() => setSensorStatus('errored')),
       2000,
     );
-  }, [props]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(() => {
     props.handleStatusChange(sensorStatus);
-  }, [props, sensorStatus]);
+  }, [sensorStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
