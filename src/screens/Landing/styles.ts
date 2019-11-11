@@ -3,7 +3,7 @@ import {headerHeight, small, borderRadius} from '../../constants/Theme';
 
 const color = ['#6B90D0', '#962CDD', '#FFCB7D'];
 export const HeaderContainer = styled.View`
-  min-height: ${headerHeight};
+  height: ${headerHeight};
   background-color: #fff;
   padding: ${small}%;
 `;

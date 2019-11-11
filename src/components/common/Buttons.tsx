@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const LinearGradientButton = styled(Button).attrs(props => ({
+export const LinearGradientButton = styled(Button).attrs(() => ({
   ViewComponent: LinearGradient, // Don't forget this!
   linearGradientProps: {
     colors: ['red', 'pink'],
@@ -11,3 +11,14 @@ export const LinearGradientButton = styled(Button).attrs(props => ({
     end: {x: 1, y: 0.5},
   },
 }));
+
+export const FullWidthButton = styled(Button).attrs(() => ({
+  buttonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 0,
+  },
+  containerStyle: {
+    width: '100%',
+  },
+}))``;
