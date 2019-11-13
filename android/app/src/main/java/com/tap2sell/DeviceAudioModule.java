@@ -3,7 +3,6 @@ package com.tap2sell;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -146,17 +145,7 @@ public class DeviceAudioModule extends ReactContextBaseJavaModule implements Lif
         else promise.resolve(false);
     }
 
-    @ReactMethod
-    public void testVibration(Promise promise){
-        // Get instance of Vibrator from current Context
-        Vibrator v = (Vibrator) reactContext.getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {0, 500, 1000,500,1000};
-        v.vibrate(pattern, -1);
-        promise.resolve(2);
-    }
-
     public boolean onKeyDownEvent(int i, KeyEvent event) {
-        Toast.makeText(reactContext, "Some key is Down", Toast.LENGTH_LONG).show();
         WritableMap params = Arguments.createMap();
          if ((i == KeyEvent.KEYCODE_VOLUME_DOWN)){
             params.putBoolean("volumeDown", true);
@@ -165,7 +154,7 @@ public class DeviceAudioModule extends ReactContextBaseJavaModule implements Lif
             params.putBoolean("volumeUp", true);
             sendEvent(reactContext, BUTTON_EVENT, params);
         }
-        return true;
+        return false;
     }
 
 
