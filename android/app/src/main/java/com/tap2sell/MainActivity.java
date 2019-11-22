@@ -18,6 +18,8 @@ public class MainActivity extends ReactActivity {
   @Override
   // catches the onKeyDown button event
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-    return DeviceAudioModule.getInstance().onKeyDownEvent(keyCode,event);
+
+    DeviceAudioModule.getInstance().onKeyDownEvent(keyCode,event);
+    return super.onKeyDown(keyCode,event);
   }
 }
