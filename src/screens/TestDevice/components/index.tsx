@@ -9,6 +9,11 @@ import {
   TestFrontCamera,
   TestBattery,
 } from './BasicTest';
+import {
+  TestCharging,
+  TestVolumeUpButton,
+  TestVolumeDownButton,
+} from './EventBasedTest';
 
 export {
   DoesPhoneSwitchOn,
@@ -24,4 +29,7 @@ export {
   TestBluetooth,
   TestFrontCamera,
   TestBattery,
+  TestCharging,
+  TestVolumeUpButton,
+  TestVolumeDownButton,
 };
