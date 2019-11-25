@@ -23,6 +23,7 @@ import {
   TestVolumeUpButton,
   Title,
 } from './components';
+import {OptionContainer} from './components/common';
 
 type ITestTypes =
   | 'switchOn'
@@ -36,9 +37,21 @@ export const TestScreen = () => {
 
   switch (navigation.getParam('step')) {
     case 'switchOn':
-      return <DoesPhoneSwitchOn />;
+      return (
+        <DoesPhoneSwitchOn
+          onSuccess={() =>
+            navigation.navigate(Routes.testDevice, {step: 'age'})
+          }
+        />
+      );
     case 'age':
-      return <SelectPhoneAge />;
+      return (
+        <SelectPhoneAge
+          onSubmit={() => {
+            navigation.navigate(Routes.testDevice, {step: 'askForTest'});
+          }}
+        />
+      );
 
     case 'askForTest':
       return (
@@ -55,12 +68,13 @@ export const TestScreen = () => {
             navigation.navigate(Routes.testDevice, {step: 'age'})
           }
         />
+        // <SelectPhoneAge />
       );
     // return <DoesPhoneSwitchOn />;
   }
 };
 
-const SelectPhoneAge = () => {
+const SelectPhoneAge = ({onSubmit}: {onSubmit: () => void}) => {
   const {widthPercentageToDP, heightPercentageToDP} = useResponsiveHelper();
   const [checked, setChecked] = React.useState(1);
 
@@ -78,14 +92,7 @@ const SelectPhoneAge = () => {
             marginVertical: `${base}%`,
           }}
         />
-        <View
-          style={{
-            marginTop: `${base}%`,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <OptionContainer>
           <Option
             title="1-3"
             checked={checked === 1}
@@ -110,14 +117,14 @@ const SelectPhoneAge = () => {
             center
             onPress={() => setChecked(4)}
           />
-        </View>
-        <FullWidthButton title="Next" />
+        </OptionContainer>
+        <FullWidthButton title="Next" onPress={onSubmit} />
       </Container>
     </ScrollView>
   );
 };
 
-const AskForTest = ({onLastStep}) => {
+const AskForTest = ({onLastStep}: {onLastStep: () => void}) => {
   const {widthPercentageToDP, heightPercentageToDP} = useResponsiveHelper();
   const [step, setStep] = React.useState(0);
   const [sensorStatus, setSensorStatus] = React.useState('willTest' as

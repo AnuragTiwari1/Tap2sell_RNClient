@@ -57,6 +57,7 @@ interface IStyles {
   'bold-italic': any;
   xLarge: any;
   large: any;
+  underline: any;
 }
 
 const styles: IStyles = {
@@ -101,5 +102,8 @@ const styles: IStyles = {
   },
   'bold-italic': {
     ...getFontStyleObject({family: 'Lato', weight: 'BoldItalic'}),
+  },
+  underline: {
+    textDecorationLine: 'underline',
   },
 };

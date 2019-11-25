@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, View} from 'react-native';
+import {Animated, View, StyleSheet} from 'react-native';
 import {Icon, IconProps, withTheme} from 'react-native-elements';
 
 export const TestingSpinner = withTheme<IconProps & {status: string}>(props => {
@@ -24,8 +24,8 @@ export const TestingSpinner = withTheme<IconProps & {status: string}>(props => {
     }
   }, [rotation, status]);
   const color =
-    status === 'pending'
-      ? theme.colors.primary
+    status === 'pending' && !!theme.colors
+      ? theme.colors.grey4
       : status === 'pass'
       ? 'green'
       : 'red';
@@ -35,26 +35,45 @@ export const TestingSpinner = withTheme<IconProps & {status: string}>(props => {
         style={{
           transform: [{rotate: rotationAngle}],
         }}>
-        <Icon
-          name="loading1"
-          type="antdesign"
-          color={color === theme.colors.primary ? theme.colors.grey4 : color}
-          size={200}
-        />
+        <Icon name="loading1" type="antdesign" color={color} size={200} />
       </Animated.View>
+      {status !== 'pending' && (
+        <View
+          style={[
+            styles.circularBand,
+            {
+              borderColor: color,
+            },
+          ]}
+        />
+      )}
       <Icon
         size={100}
         color={color}
-        containerStyle={{
-          position: 'absolute',
-          top: 105,
-          left: 100,
-        }}
-        iconStyle={{
-          position: 'absolute',
-        }}
+        containerStyle={styles.iconContainer}
+        iconStyle={styles.iconStyle}
         {...rest}
       />
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  circularBand: {
+    borderWidth: 14,
+    borderRadius: 100,
+    position: 'absolute',
+    height: 200,
+    width: 200,
+    top: 0,
+    left: 0,
+  },
+  iconContainer: {
+    position: 'absolute',
+    top: 105,
+    left: 100,
+  },
+  iconStyle: {
+    position: 'absolute',
+  },
 });

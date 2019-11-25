@@ -1,14 +1,22 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Phone from '../../../assets/icons/smartphone.svg';
-import {FullWidthButton} from '../../../components/common/Buttons';
-import {base, headerHeight} from '../../../constants/Theme';
+import {AppText as Text} from '../../../components/common/AppText';
+import {FlexButton, FullWidthButton} from '../../../components/common/Buttons';
+import {
+  base,
+  borderRadius,
+  headerHeight,
+  large,
+} from '../../../constants/Theme';
 import {useResponsiveHelper} from '../../../utils/styles/responsive';
-import {Container, Title, Option} from './common';
+import {Container, Option, OptionContainer, Title} from './common';
 
-export const DoesPhoneSwitchOn = () => {
+export const DoesPhoneSwitchOn = ({onSuccess}: {onSuccess: () => void}) => {
   const {widthPercentageToDP, heightPercentageToDP} = useResponsiveHelper();
   const [checked, setChecked] = React.useState(1);
+  const BottomSheet = React.useRef<null | RBSheet>(null);
 
   return (
     <ScrollView>
@@ -22,7 +30,7 @@ export const DoesPhoneSwitchOn = () => {
           }}
         />
 
-        <View style={{marginTop: `${base}%`, flexDirection: 'row'}}>
+        <OptionContainer>
           <Option
             title="Yes"
             checked={checked === 1}
@@ -35,8 +43,53 @@ export const DoesPhoneSwitchOn = () => {
             center
             onPress={() => setChecked(2)}
           />
-        </View>
-        <FullWidthButton title="Next" />
+        </OptionContainer>
+        <FullWidthButton
+          title="Next"
+          onPress={() => {
+            if (checked === 2) {
+              !!BottomSheet.current && BottomSheet.current.open();
+            } else onSuccess();
+          }}
+        />
+        <RBSheet
+          ref={ref => {
+            BottomSheet.current = ref;
+          }}
+          animationType={'slide'}
+          height={175}
+          customStyles={{
+            container: {
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTopLeftRadius: borderRadius,
+              borderTopRightRadius: borderRadius,
+            },
+          }}>
+          <>
+            <Text type="center" style={{paddingTop: `${large}%`}}>
+              <Text type="large">No price for this phone</Text>
+              <Text>{`\n`}but you can request a repair at our shop</Text>
+            </Text>
+            <View
+              style={{
+                flex: 0,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                }}>
+                <Text type="underline">Go to Landing</Text>
+              </View>
+
+              <FlexButton title="Repair Now" />
+            </View>
+          </>
+        </RBSheet>
       </Container>
     </ScrollView>
   );

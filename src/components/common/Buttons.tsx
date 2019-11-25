@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import {Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
-import {large, base} from '../../constants/Theme';
+import styled from 'styled-components';
+import {base, tiny} from '../../constants/Theme';
 
 export const LinearGradientButton = styled(Button).attrs(() => ({
   ViewComponent: LinearGradient, // Don't forget this!
@@ -17,6 +17,10 @@ export const FullWidthButton = styled(Button).attrs(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 0,
+  },
+  titleStyle: {
+    marginVertical: `${tiny + 0.5}%`,
+    fontSize: 18,
   },
   containerStyle: {
     width: '100%',
