@@ -1,9 +1,18 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
+import {Icon} from 'react-native-elements';
+import styled from 'styled-components/native';
 import Phone from '../../assets/icons/smartphone.svg';
 import {AppText as Text} from '../../components/common/AppText';
 import {FlexButton, FullWidthButton} from '../../components/common/Buttons';
-import {base, headerHeight} from '../../constants/Theme';
+import {
+  base,
+  borderRadius,
+  headerHeight,
+  small,
+  Theme,
+  xLarge,
+} from '../../constants/Theme';
 import {useNavigation} from '../../hooks/useNavigation';
 import {Routes} from '../../router/routes';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
@@ -30,7 +39,14 @@ type ITestTypes =
   | 'age'
   | 'condition'
   | 'askForTest'
-  | 'testBluetooth';
+  | 'askUserForTest';
+
+interface ISensorCardData {
+  status?: 'working' | 'failed' | 'checked';
+  iconName: string;
+  iconFamily: string;
+  sensorName: string;
+}
 
 export const TestScreen = () => {
   const navigation = useNavigation<{step: ITestTypes}>();
@@ -61,14 +77,18 @@ export const TestScreen = () => {
           }
         />
       );
+    case 'askUserForTest':
+      return <UserTest />;
     default:
       return (
-        <AskForTest
-          onLastStep={() =>
-            navigation.navigate(Routes.testDevice, {step: 'age'})
-          }
-        />
+        // <AskForTest
+        //   onLastStep={() =>
+        //     navigation.navigate(Routes.testDevice, {step: 'age'})
+        //   }
+        // />
         // <SelectPhoneAge />
+        <SelectPhoneCondition />
+        // <UserTest />
       );
     // return <DoesPhoneSwitchOn />;
   }
@@ -294,3 +314,253 @@ const AskForTest = ({onLastStep}: {onLastStep: () => void}) => {
     </ScrollView>
   );
 };
+
+const UserTest = () => {
+  const initialData: ISensorCardData[] = [
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'wifi',
+      status: 'failed',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'bluetooth',
+      status: 'working',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'gps',
+      status: 'working',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'touch',
+      status: 'failed',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'button',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'camera',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'bluetooth',
+      status: 'working',
+    },
+    {
+      iconName: 'wifi',
+      iconFamily: 'feather',
+      sensorName: 'gps',
+      status: 'working',
+    },
+  ];
+
+  const [data, setData] = React.useState(initialData);
+  return (
+    <View style={{justifyContent: 'space-between', flex: 1}}>
+      <View style={{flex: 1}}>
+        <FlatList
+          contentContainerStyle={{paddingHorizontal: `${xLarge}%`}}
+          data={data}
+          numColumns={2}
+          ListHeaderComponent={
+            <View style={{backgroundColor: '#fff'}}>
+              <Title type="center">
+                Select all that do<Text type="bold"> NOT </Text>work
+              </Title>
+            </View>
+          }
+          keyExtractor={(item, index) => `${item.sensorName}-${index}`}
+          renderItem={({item, index}) => {
+            return (
+              <SensorCard
+                {...item}
+                onPress={() => {
+                  data[index].status =
+                    data[index].status === 'checked' ? undefined : 'checked';
+                  setData([...data]);
+                }}
+              />
+            );
+          }}
+        />
+      </View>
+
+      <FullWidthButton title="Next" />
+    </View>
+  );
+};
+
+interface ISensorCardProps extends ISensorCardData {
+  onPress: Function;
+}
+
+const SensorCard = ({
+  status,
+  iconName,
+  iconFamily,
+  sensorName,
+  onPress,
+}: ISensorCardProps) => {
+  const color = !status || status === 'working' ? '#fff' : '#ffd9a2';
+  const invertedColor = color === '#fff' ? '#ffd9a2' : '#fff';
+  return (
+    <StyledSensorCardContainer
+      style={[{backgroundColor: color}]}
+      disabled={status === 'working' || status === 'failed'}
+      onPress={onPress}>
+      {status === 'working' || status === 'failed' ? (
+        <View
+          style={[
+            styles.sensorStatusTextContainer,
+            {backgroundColor: status === 'working' ? '#efefef' : '#fff'},
+          ]}>
+          <Text
+            type="small"
+            style={{
+              color: status === 'working' ? Theme.basic.colors.primary : 'red',
+              paddingVertical: `${small}%`,
+            }}>
+            {status}
+          </Text>
+        </View>
+      ) : (
+        <Text />
+      )}
+      <StyledIcon name={iconName} type={iconFamily} color={invertedColor} />
+      <Text
+        type="center bold"
+        style={{
+          marginVertical: `${xLarge}%`,
+          color: invertedColor,
+        }}>
+        {sensorName}
+      </Text>
+    </StyledSensorCardContainer>
+  );
+};
+const StyledSensorCardContainer = styled.TouchableOpacity`
+  border-width: 2;
+  border-color: #ffd9a2;
+  flex: 1;
+  margin: ${small}%;
+  border-radius: ${borderRadius};
+`;
+
+const StyledIcon = styled(Icon).attrs(() => ({
+  size: 60,
+  containerStyle: {
+    paddingHorizontal: `${base}%`,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: `${small}%`,
+  },
+}))``;
+
+const styles = StyleSheet.create({
+  sensorStatusTextContainer: {
+    borderRadius: 3 * borderRadius,
+    margin: `${small}%`,
+    paddingHorizontal: `${xLarge}%`,
+    alignSelf: 'flex-end',
+  },
+});
+
+const SelectPhoneCondition = () => {
+  const initialData: IConditionObj[] = [
+    {
+      title: 'Excellent',
+      subtitle: 'Just like a new ,Fully working, zero scratch',
+      checked: true,
+    },
+    {
+      title: 'Good',
+      subtitle: 'Minor marks and scratches,Fully working, no dent or crack',
+      checked: false,
+    },
+    {
+      title: 'Average',
+      subtitle: 'Major scratches on body, Display work properly',
+      checked: false,
+    },
+    {
+      title: 'Below Average',
+      subtitle: 'Heavy dents,crack and scratches on body',
+      checked: false,
+    },
+  ];
+  const [data, setData] = React.useState(initialData);
+  return (
+    <View style={{justifyContent: 'space-between', flex: 1}}>
+      <View style={{flex: 1}}>
+        <FlatList
+          contentContainerStyle={{paddingHorizontal: `${base}%`}}
+          data={data}
+          ListHeaderComponent={
+            <View style={{backgroundColor: '#fff'}}>
+              <Title type="center">Select your phone Condition</Title>
+            </View>
+          }
+          keyExtractor={(item, index) => `${item.sensorName}-${index}`}
+          renderItem={({item, index}) => {
+            return (
+              <PhoneConditionCard
+                {...item}
+                onPress={() => {
+                  const newData = data.map(e => ({...e, checked: false}));
+                  newData[index].checked = newData[index].checked
+                    ? false
+                    : true;
+                  setData([...newData]);
+                }}
+              />
+            );
+          }}
+        />
+      </View>
+      <FullWidthButton title="Finish" />
+    </View>
+  );
+};
+
+interface IConditionObj {
+  title: string;
+  subtitle: string;
+  checked: boolean;
+}
+
+const PhoneConditionCard = ({
+  title,
+  subtitle,
+  checked,
+  onPress,
+}: IConditionObj & {onPress: (e: any) => void}) => {
+  const color = checked ? '#fff' : '#ffd9a2';
+  const invertedColor = color === '#fff' ? '#ffd9a2' : '#fff';
+  return (
+    <StyledConditionCardContainer
+      style={[{backgroundColor: invertedColor}]}
+      onPress={onPress}>
+      <Text type="bold" style={{color, marginBottom: `${small}%`}}>
+        {title}
+      </Text>
+      <Text type="base" style={{color}}>
+        {subtitle}
+      </Text>
+    </StyledConditionCardContainer>
+  );
+};
+
+const StyledConditionCardContainer = styled(StyledSensorCardContainer)`
+  padding: ${base}%;
+`;

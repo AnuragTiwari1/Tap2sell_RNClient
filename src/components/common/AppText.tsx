@@ -58,6 +58,7 @@ interface IStyles {
   xLarge: any;
   large: any;
   underline: any;
+  right: any;
 }
 
 const styles: IStyles = {
@@ -92,6 +93,7 @@ const styles: IStyles = {
   center: {
     textAlign: 'center',
   },
+  right: {textAlign: 'right', alignSelf: 'stretch'},
   muted: (theme: any) => ({
     color: theme.colors.grey2,
   }),
