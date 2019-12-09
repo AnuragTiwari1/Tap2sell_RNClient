@@ -59,6 +59,7 @@ interface IStyles {
   large: any;
   underline: any;
   right: any;
+  label: any;
 }
 
 const styles: IStyles = {
@@ -97,6 +98,9 @@ const styles: IStyles = {
   muted: (theme: any) => ({
     color: theme.colors.grey2,
   }),
+  label: {
+    fontSize: 16,
+  },
   header: {
     textAlign: 'center',
     fontSize: 25,

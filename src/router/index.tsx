@@ -5,8 +5,14 @@ import {Routes} from './routes';
 import Login from '../screens/Login';
 import {Landing, Header} from '../screens/Landing';
 import {SelectBrand} from '../screens/SelectBrand';
-import {SelectDevices} from '../screens/SelectDevice';
-import {TestScreen} from '../screens/TestDevice';
+import SelectDevices from '../screens/SelectDevice';
+import TestScreen from '../screens/TestDevice';
+import DeviceReport from '../screens/DeviceReport';
+import {
+  CreateProfile,
+  SchedulePickup,
+  CongoScreen,
+} from '../screens/CreateProfile';
 
 const defaultHeaderObject = {
   header: () => <Header />,
@@ -19,11 +25,23 @@ const AppNavigator = createSwitchNavigator(
     },
     AppRoutes: createStackNavigator(
       {
-        [Routes.testDevice]: {
-          screen: TestScreen,
-        },
         [Routes.landing]: {
           screen: Landing,
+        },
+        [Routes.createProfile]: {
+          screen: CreateProfile,
+        },
+        [Routes.schedulePickup]: {
+          screen: SchedulePickup,
+        },
+        [Routes.congo]: {
+          screen: CongoScreen,
+        },
+        [Routes.deviceReport]: {
+          screen: DeviceReport,
+        },
+        [Routes.testDevice]: {
+          screen: TestScreen,
         },
         [Routes.selectBrand]: {
           screen: SelectBrand,
@@ -41,7 +59,7 @@ const AppNavigator = createSwitchNavigator(
     ),
   },
   {
-    initialRouteName: 'AppRoutes',
+    initialRouteName: `${Routes.login}`,
   },
 );
 

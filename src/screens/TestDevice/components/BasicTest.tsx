@@ -1,5 +1,5 @@
 import React from 'react';
-import {BasicSensorTest} from './BasicSensorTest';
+import {BasicSensorTest, ISensorStatus} from './BasicSensorTest';
 import {
   BluetoothModule,
   BatteryModule,
@@ -7,11 +7,11 @@ import {
 } from '../../../NativeModules';
 import {requestCameraPermission} from './utils';
 
-export const TestBackCamera = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => (
+export interface ITestProps {
+  handleStatusChange: (e: ISensorStatus) => void;
+}
+
+export const TestBackCamera = ({handleStatusChange}: ITestProps) => (
   <BasicSensorTest
     pendingText="Testing device back camera"
     failedText="Back Camera didn't worked"
@@ -27,11 +27,7 @@ export const TestBackCamera = ({
   />
 );
 
-export const TestFrontCamera = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => (
+export const TestFrontCamera = ({handleStatusChange}: ITestProps) => (
   <BasicSensorTest
     pendingText="Testing device front camera"
     failedText="Front Camera didn't worked"
@@ -51,11 +47,7 @@ export const TestFrontCamera = ({
   />
 );
 
-export const TestBluetooth = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => (
+export const TestBluetooth = ({handleStatusChange}: ITestProps) => (
   <BasicSensorTest
     testSensor={BluetoothModule.isBluetoothWorking}
     iconName="bluetooth-b"
@@ -67,11 +59,7 @@ export const TestBluetooth = ({
   />
 );
 
-export const TestBattery = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => (
+export const TestBattery = ({handleStatusChange}: ITestProps) => (
   <BasicSensorTest
     testSensor={() =>
       BatteryModule.getBatteryHealth().then(

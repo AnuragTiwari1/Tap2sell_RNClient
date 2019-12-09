@@ -4,6 +4,8 @@ import {withTheme} from 'react-native-elements';
 import {AppText as Text} from '../../../components/common/AppText';
 import {TestingSpinner} from './TestingSpinner';
 
+export type ISensorStatus = 'pending' | 'pass' | 'fail' | 'errored';
+
 export const BasicSensorTest = withTheme<{
   handleStatusChange: (x: any) => void;
   testSensor: () => Promise<boolean>;
@@ -13,11 +15,9 @@ export const BasicSensorTest = withTheme<{
   iconName: string;
   iconType: string;
 }>(props => {
-  const [sensorStatus, setSensorStatus] = React.useState('pending' as
-    | 'pending'
-    | 'pass'
-    | 'fail'
-    | 'errored');
+  const [sensorStatus, setSensorStatus] = React.useState<ISensorStatus>(
+    'pending',
+  );
   React.useEffect(() => {
     setTimeout(
       () =>

@@ -3,79 +3,74 @@ import {NativeEventEmitter, View} from 'react-native';
 import {AppText as Text} from '../../../components/common/AppText';
 import {AudioModule, BatteryModule} from '../../../NativeModules';
 import {TestingSpinner} from './TestingSpinner';
+import {ITestProps} from './BasicTest';
+import {ISensorStatus} from './BasicSensorTest';
 
-export const TestCharging = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => {
-  const [sensorStatus, setSensorStatus] = React.useState('pending' as
-    | 'pending'
-    | 'pass'
-    | 'fail'
-    | 'errored');
+export const TestCharging = ({handleStatusChange}: ITestProps) => {
+  const [sensorStatus, setSensorStatus] = React.useState<ISensorStatus>(
+    'pending',
+  );
+
+  const onBatteryStateChanged = (state: any) => {
+    if (state.charging) {
+      setSensorStatus('pass');
+      handleStatusChange('pass');
+    } // {level: 0.95, charging: true}
+  };
 
   React.useEffect(() => {
-    // as a listener
-    var onBatteryStateChanged = (state: any) => {
-      if (state.charging) {
-        setSensorStatus('pass');
-      } // {level: 0.95, charging: true}
-    };
     const eventEmitter = new NativeEventEmitter(BatteryModule);
 
     // to attach a listener
     eventEmitter.addListener('batteryChange', onBatteryStateChanged);
     // to remove a listener
-    return eventEmitter.removeListener('batteryChange', () => {});
-  }, []);
+    return () => eventEmitter.removeListener('batteryChange', () => {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // it is required is device is charging already
   React.useEffect(() => {
     handleStatusChange('pending');
     BatteryModule.isCharging().then((isCharging: boolean) => {
-      if (isCharging) setSensorStatus('pass');
+      if (isCharging) {
+        setSensorStatus('pass');
+        handleStatusChange('pass');
+      }
     });
-  }, [handleStatusChange]);
-
-  React.useEffect(() => {
-    handleStatusChange(sensorStatus);
-  }, [handleStatusChange, sensorStatus]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      <View>
-        {
-          <Text type="muted bold center">
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <Text type="muted bold center">
+          {
             {
-              {
-                pending: 'Plug in the charger to test the charging port',
-                pass: 'Charging port is working fine',
-                fail: 'Charging Port is not working',
-                errored: 'Test Failed. You can skip the test for now',
-              }[sensorStatus]
-            }
-          </Text>
-        }
+              pending: 'Plug in the charger to test the charging port',
+              pass: 'Charging port is working fine',
+              fail: 'Charging Port is not working',
+              errored: 'Test Failed. You can skip the test for now',
+            }[sensorStatus]
+          }
+        </Text>
       </View>
-      <TestingSpinner
-        name="battery-charging-50"
-        type="material-community"
-        status={sensorStatus}
-      />
+      <View style={{flex: 2}}>
+        <TestingSpinner
+          name="battery-charging-50"
+          type="material-community"
+          status={sensorStatus}
+        />
+      </View>
     </>
   );
 };
 
-export const TestVolumeUpButton = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => {
-  const [sensorStatus, setSensorStatus] = React.useState('pending' as
-    | 'pending'
-    | 'pass'
-    | 'fail'
-    | 'errored');
+export const TestVolumeUpButton = ({handleStatusChange}: ITestProps) => {
+  const [sensorStatus, setSensorStatus] = React.useState<ISensorStatus>(
+    'pending',
+  );
 
   /**
    * volume button test
@@ -86,15 +81,12 @@ export const TestVolumeUpButton = ({
     eventEmitter.addListener('buttonPress', event => {
       if (event.volumeUp) {
         setSensorStatus('pass');
+        handleStatusChange('pass');
       }
     });
     // to remove a listener
-    return eventEmitter.removeListener('buttonPress', () => {});
-  }, [handleStatusChange]);
-
-  React.useEffect(() => {
-    handleStatusChange(sensorStatus);
-  }, [handleStatusChange, sensorStatus]);
+    return () => eventEmitter.removeListener('buttonPress', () => {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -125,16 +117,10 @@ export const TestVolumeUpButton = ({
   );
 };
 
-export const TestVolumeDownButton = ({
-  handleStatusChange,
-}: {
-  handleStatusChange: (x: any) => void;
-}) => {
-  const [sensorStatus, setSensorStatus] = React.useState('pending' as
-    | 'pending'
-    | 'pass'
-    | 'fail'
-    | 'errored');
+export const TestVolumeDownButton = ({handleStatusChange}: ITestProps) => {
+  const [sensorStatus, setSensorStatus] = React.useState<ISensorStatus>(
+    'pending',
+  );
 
   /**
    * volume button test
@@ -145,37 +131,38 @@ export const TestVolumeDownButton = ({
     eventEmitter.addListener('buttonPress', event => {
       if (event.volumeDown) {
         setSensorStatus('pass');
+        handleStatusChange('pass');
       }
     });
     // to remove a listener
-    return eventEmitter.removeListener('buttonPress', () => {});
-  }, [handleStatusChange]);
-
-  React.useEffect(() => {
-    handleStatusChange(sensorStatus);
-  }, [handleStatusChange, sensorStatus]);
+    return () => eventEmitter.removeListener('buttonPress', () => {});
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      <View>
-        {
-          <Text type="muted bold center">
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <Text type="muted bold center">
+          {
             {
-              {
-                pending: 'Press the volume down button',
-                pass: 'Volume down button is working fine',
-                fail: 'Volume down button is not working',
-                errored: 'Test Failed. You can skip the test for now',
-              }[sensorStatus]
-            }
-          </Text>
-        }
+              pending: 'Press the volume down button',
+              pass: 'Volume down button is working fine',
+              fail: 'Volume down button is not working',
+              errored: 'Test Failed. You can skip the test for now',
+            }[sensorStatus]
+          }
+        </Text>
       </View>
-      <TestingSpinner
-        name="volume-down"
-        type="font-awesome"
-        status={sensorStatus}
-      />
+      <View style={{flex: 2}}>
+        <TestingSpinner
+          name="volume-down"
+          type="font-awesome"
+          status={sensorStatus}
+        />
+      </View>
     </>
   );
 };

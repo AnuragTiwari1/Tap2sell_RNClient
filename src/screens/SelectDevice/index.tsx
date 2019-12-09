@@ -1,31 +1,74 @@
 import React from 'react';
-import {AppText as Text} from '../../components/common/AppText';
-import {ScrollView, View} from 'react-native';
-import {useResponsiveHelper} from '../../utils/styles/responsive';
-import styled from 'styled-components/native';
-import {BackIcon, baseIcon} from '../../components/Icon/common';
-import {SearchBar} from '../../components/common/SearchBar';
+import {FlatList, View} from 'react-native';
 import {SharedElement} from 'react-native-motion';
+import styled from 'styled-components/native';
+import {AppText as Text} from '../../components/common/AppText';
+import {SearchBar} from '../../components/common/SearchBar';
+import {BackIcon, baseIcon} from '../../components/Icon/common';
 import {constant} from '../../Config';
-import {base, borderRadius} from '../../constants/Theme';
-// import {FlatList} from 'react-native-gesture-handler';
+import {base, borderRadius, tiny, xTiny} from '../../constants/Theme';
+import {IGeneralDetails} from '../../redux/device';
+import {useResponsiveHelper} from '../../utils/styles/responsive';
+import {useNavigation} from '../../hooks/useNavigation';
+import {connect} from 'react-redux';
+import {Routes} from '../../router/routes';
 
-export const SelectDevices = (props: any) => {
+// import {FlatList} from 'react-native-gesture-handler';
+const mobileData: IGeneralDetails[] = [
+  {
+    name: 'Asus ZenFone Max M2',
+    storage: 32,
+    ram: 4,
+    imgUrl:
+      'https://rukminim1.flixcart.com/image/312/312/jp02t8w0/mobile/z/z/e/asus-zenfone-max-m2-zb632kl-4a004in-original-imafbcafmv6tgqjz.jpeg?q=70',
+  },
+  {
+    name: 'Asus 6Z',
+    storage: 32,
+    ram: 4,
+    imgUrl:
+      'https://rukminim1.flixcart.com/image/312/312/k1118cw0/mobile/g/p/n/asus-6z-zs630kl-6a042ww-original-imafkzqyusfjpgyj.jpeg?q=70',
+  },
+  {
+    name: 'Samsung Galaxy A50s',
+    storage: 32,
+    ram: 4,
+    imgUrl:
+      'https://rukminim1.flixcart.com/image/312/312/k0flmkw0/mobile/s/a/y/samsung-galaxy-a50s-sm-a507fzlwins-original-imafk8h5xtdt3ggv.jpeg?q=70',
+  },
+  {
+    name: 'Redmi Note 7 Pro',
+    storage: 32,
+    ram: 4,
+    imgUrl:
+      'https://rukminim1.flixcart.com/image/312/312/jyyqc280/mobile/x/s/d/mi-redmi-note-7-pro-mzb8433in-original-imafj36gfh9gfr7g.jpeg?q=70',
+  },
+  {
+    name: 'OPPO K1',
+    storage: 32,
+    ram: 4,
+    imgUrl:
+      'https://rukminim1.flixcart.com/image/312/312/jrqo70w0/mobile/r/d/z/oppo-k1-cph1893-original-imafdgxvmqwufx7d.jpeg?q=70',
+  },
+];
+const SelectDevices = ({setDevice}: {setDevice: Function}) => {
   const {widthPercentageToDP} = useResponsiveHelper();
   const [searchText, setSearchText] = React.useState('');
-
+  const {navigate, getParam, goBack} = useNavigation<{
+    activateSearch: boolean;
+  }>();
   return (
-    <ScrollView stickyHeaderIndices={[0]}>
+    <>
       <SharedElement sourceId={constant.searchBarId}>
         <View>
           <SearchContainer>
             <StyledBackIcon
               size={widthPercentageToDP(baseIcon)}
-              onPress={() => props.navigation.goBack()}
+              onPress={() => goBack()}
             />
             <View style={{flex: 1}}>
               <SearchBar
-                getFocus={props.navigation.getParam('activateSearch', false)}
+                getFocus={getParam('activateSearch', false)}
                 value={searchText}
                 onChangeText={setSearchText}
                 placeholder="Search your device here..."
@@ -34,42 +77,45 @@ export const SelectDevices = (props: any) => {
           </SearchContainer>
         </View>
       </SharedElement>
-      {/* <FlatList /> */}
-      <DevicesRow
-        name="Asus ZenFone Max M2"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/jp02t8w0/mobile/z/z/e/asus-zenfone-max-m2-zb632kl-4a004in-original-imafbcafmv6tgqjz.jpeg?q=70"
+      <FlatList
+        data={mobileData}
+        renderItem={({item}) => (
+          <DevicesRow
+            {...item}
+            onPress={() => {
+              setDevice(item);
+              navigate(`${Routes.testDevice}`);
+            }}
+          />
+        )}
+        keyExtractor={(item, index) => `${item.name}-${index}`}
       />
-      <DevicesRow
-        name="Asus 6Z"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/k1118cw0/mobile/g/p/n/asus-6z-zs630kl-6a042ww-original-imafkzqyusfjpgyj.jpeg?q=70"
-      />
-      <DevicesRow
-        name="Samsung Galaxy A50s"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/k0flmkw0/mobile/s/a/y/samsung-galaxy-a50s-sm-a507fzlwins-original-imafk8h5xtdt3ggv.jpeg?q=70"
-      />
-      <DevicesRow
-        name="Samsung Galaxy A20"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/ju79hu80/mobile/4/v/n/samsung-galaxy-a20-sm-a205fzbgins-original-imaffdvk3rztygm5.jpeg?q=70"
-      />
-      <DevicesRow
-        name="Redmi Note 7 Pro"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/jyyqc280/mobile/x/s/d/mi-redmi-note-7-pro-mzb8433in-original-imafj36gfh9gfr7g.jpeg?q=70"
-      />
-      <DevicesRow
-        name="OPPO K1"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/jrqo70w0/mobile/r/d/z/oppo-k1-cph1893-original-imafdgxvmqwufx7d.jpeg?q=70"
-      />
-      <DevicesRow
-        name="OPPO A5"
-        imgUrl="https://rukminim1.flixcart.com/image/312/312/ju79hu80/mobile/y/y/k/oppo-a5-cph1809-original-imaf9f378sdqknhv.jpeg?q=70"
-      />
-    </ScrollView>
+    </>
   );
 };
 
-const DevicesRow = ({name, imgUrl}: {name: string; imgUrl: string}) => {
+export default connect(
+  null,
+  dispatch => ({
+    setDevice: (device: IGeneralDetails) =>
+      dispatch({
+        type: 'setState',
+        payload: {
+          generalDetails: device,
+        },
+      }),
+  }),
+)(SelectDevices);
+
+const DevicesRow = ({
+  name,
+  imgUrl,
+  ram,
+  storage,
+  onPress,
+}: IGeneralDetails & {onPress: (e: any) => void}) => {
   return (
-    <DeviceRowContainer>
+    <DeviceRowContainer onPress={onPress}>
       <StyledImage
         source={{
           uri: imgUrl,
@@ -77,11 +123,13 @@ const DevicesRow = ({name, imgUrl}: {name: string; imgUrl: string}) => {
         resizeMode="center"
       />
       <TextContainer>
-        <Text type="bold" style={{marginBottom: '2%'}}>
+        <Text type="bold" style={{marginBottom: `${tiny}%`}}>
           {name}
         </Text>
-        <Text type="base" style={{marginBottom: '5%', marginStart: '1%'}}>
-          3 GB RAM | 32 GB ROM...
+        <Text
+          type="base"
+          style={{marginBottom: `${base}%`, marginStart: `${xTiny}%`}}>
+          {ram} GB RAM | {storage} GB ROM...
         </Text>
         <PriceText type="white bold small" style={{borderRadius}}>
           Get Upto ₹5,000
@@ -105,7 +153,7 @@ const TextContainer = styled.View`
   margin-right: 5%;
 `;
 
-const DeviceRowContainer = styled.View`
+const DeviceRowContainer = styled.TouchableOpacity`
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;

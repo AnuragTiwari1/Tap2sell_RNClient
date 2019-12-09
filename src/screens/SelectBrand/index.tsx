@@ -1,15 +1,15 @@
 import React from 'react';
-import {AppText as Text} from '../../components/common/AppText';
-import {ScrollView, View, FlatList} from 'react-native';
-import {ScreenMainContainer} from '../Landing/styles';
-import styled from 'styled-components/native';
-import {Routes} from '../../router/routes';
-import {SearchBar} from '../../components/common/SearchBar';
+import {FlatList, ScrollView, View} from 'react-native';
 import {SharedElement} from 'react-native-motion';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import styled from 'styled-components/native';
+import {AppText as Text} from '../../components/common/AppText';
+import {SearchBar} from '../../components/common/SearchBar';
 import {constant} from '../../Config';
 import {base} from '../../constants/Theme';
-import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {useNavigation} from '../../hooks/useNavigation';
+import {Routes} from '../../router/routes';
+import {ScreenMainContainer} from '../Landing/styles';
 
 export const SelectBrand: React.FC<
   NavigationStackScreenProps<{activeSearch: boolean}>
@@ -50,37 +50,37 @@ interface IBrandLogo {
 
 const BrandData: IBrandLogo[] = [
   {
-    img: 'http://www.tap2sell.com/img/apple1_1542100473.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'Apple',
     _id: '1',
   },
   {
-    img: 'http://www.tap2sell.com/img/Samsung_1542101267.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'Samsung',
     _id: '2',
   },
   {
-    img: 'http://www.tap2sell.com/img/mi_1542101570.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'Xiaomi',
     _id: '3',
   },
   {
-    img: 'http://www.tap2sell.com/img/oneplus_1542102251.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'OnePlus',
     _id: '4',
   },
   {
-    img: 'http://www.tap2sell.com/img/oppo_1542103475.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'Oppo',
     _id: '5',
   },
   {
-    img: 'http://www.tap2sell.com/img/htc_1542103627.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'HTC',
     _id: '6',
   },
   {
-    img: 'http://www.tap2sell.com/img/Gionee_1542103768.png',
+    img: 'https://source.android.com/setup/images/Android_symbol_green_RGB.png',
     name: 'Gionee',
     _id: '7',
   },
@@ -112,7 +112,7 @@ const BrandCard = (
   return (
     <BrandContainer onPress={props.onPress}>
       <BrandLogo
-        style={[{resizeMode: 'contain'}]}
+        style={{resizeMode: 'contain'}}
         source={{
           uri: props.img,
         }}

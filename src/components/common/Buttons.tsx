@@ -1,7 +1,7 @@
 import {Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import styled from 'styled-components';
-import {base, tiny} from '../../constants/Theme';
+import {base, tiny, Theme} from '../../constants/Theme';
 
 export const LinearGradientButton = styled(Button).attrs(() => ({
   ViewComponent: LinearGradient, // Don't forget this!
@@ -37,5 +37,24 @@ export const FlexButton = styled(Button).attrs(() => ({
     marginHorizontal: `${base}%`,
     flex: 1,
     marginBottom: `${base}%`,
+  },
+}))``;
+
+export const FlexInvertedButton = styled(Button).attrs(() => ({
+  buttonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 0,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: Theme.basic.colors.primary,
+  },
+  containerStyle: {
+    marginHorizontal: `${base}%`,
+    flex: 1,
+    marginBottom: `${base}%`,
+  },
+  titleStyle: {
+    color: Theme.basic.colors.primary,
   },
 }))``;

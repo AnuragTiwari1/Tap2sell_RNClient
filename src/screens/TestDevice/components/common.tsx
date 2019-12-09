@@ -28,10 +28,6 @@ export const Title = styled(Text)`
   margin-vertical: ${base}%;
 `;
 
-export const Container = styled.View`
-  align-items: center;
-  justify-content: space-between;
-`;
 export const OptionContainer = styled.View`
   flex-direction: row;
   flex-wrap: wrap;

@@ -5,6 +5,7 @@ export default {
   logGeneral: false,
   logNetworkErrors: false,
   isTablet: false,
+  myPhone: '919607155846',
 };
 
 export const constant = {

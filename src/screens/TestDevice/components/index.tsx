@@ -1,6 +1,6 @@
 import {TestingSpinner} from './TestingSpinner';
 import {DoesPhoneSwitchOn} from './DoesPhoneSwitchOn';
-import {Container, Title, Option} from './common';
+import {Title, Option} from './common';
 import {BasicSensorTest} from './BasicSensorTest';
 import {TestSpeaker, TestVibration, TestMicrophone} from './OptionTest';
 import {
@@ -18,7 +18,6 @@ import {
 export {
   DoesPhoneSwitchOn,
   TestingSpinner,
-  Container,
   Title,
   Option,
   BasicSensorTest,

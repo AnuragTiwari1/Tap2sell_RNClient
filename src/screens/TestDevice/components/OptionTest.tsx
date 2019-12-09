@@ -148,7 +148,7 @@ export const TestVibration = React.forwardRef(({}, ref) => {
     | 'errored');
 
   const [checked, setChecked] = React.useState(0);
-  const [sound, setSound] = React.useState(2);
+  const [sound] = React.useState(2);
   const PATTERN = [0, 500, 1000, 500, 1000]; //will always return 2
 
   React.useImperativeHandle(ref, () => ({
@@ -257,7 +257,7 @@ export const TestMicrophone = ({
 }: {
   handleStatusChange: (x: any) => void;
 }) => {
-  const [sensorStatus] = React.useState('pending' as
+  const [sensorStatus, setSensorStatus] = React.useState('pending' as
     | 'pending'
     | 'pass'
     | 'fail'
@@ -291,6 +291,7 @@ export const TestMicrophone = ({
                 isAlertActive.current = true;
               } else {
                 handleStatusChange('pass');
+                setSensorStatus('pass');
                 AudioModule.stopRecording();
               }
             });
@@ -301,18 +302,13 @@ export const TestMicrophone = ({
         });
         AudioModule.testMicrophone();
 
-        return eventEmitter.removeListener('micAudioChange', () => {});
+        return () => {
+          eventEmitter.removeListener('micAudioChange', () => {});
+          AudioModule.stopRecording();
+        };
       })
       .catch(() => handleStatusChange('failed'));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  React.useEffect(() => {
-    handleStatusChange('pending');
-  }, [handleStatusChange]);
-
-  React.useEffect(() => {
-    handleStatusChange(sensorStatus);
-  }, [handleStatusChange, sensorStatus]);
 
   return (
     <>
