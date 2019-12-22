@@ -25,6 +25,7 @@ import {
   IPhoneAge,
   IFunctionalState,
   conditionText,
+  defaultFunctionalState,
 } from '../../redux/device';
 import {IStore} from '../../redux/store';
 import {Routes} from '../../router/routes';
@@ -108,9 +109,13 @@ export const TestScreen = ({
           onLastStep={() =>
             navigation.push(Routes.testDevice, {step: 'askUserForTest'})
           }
-          onSkip={() =>
-            navigation.push(Routes.testDevice, {step: 'askUserForTest'})
-          }
+          onSkip={() => {
+            setDevice({
+              ...device,
+              functionalState: defaultFunctionalState,
+            });
+            navigation.push(Routes.testDevice, {step: 'askUserForTest'});
+          }}
           {...{device, setDevice}}
         />
       );
@@ -364,17 +369,20 @@ const AskForTest = ({
 
   const backHandler = React.useRef<NativeEventSubscription | null>(null);
   React.useEffect(() => {
-    backHandler.current = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackClick,
-    );
+    //wanted to check step in "handleBackClick" function but failed
+    if (step > 0) {
+      backHandler.current = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackClick,
+      );
+    }
     return () => {
       if (backHandler.current) backHandler.current.remove();
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [step]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBackClick = () => {
-    if (navigation.isFocused() && step > 0) {
+    if (navigation.isFocused()) {
       Alert.alert(
         'Exit Testing?',
         'All the progress will be lost. Do you want to continue?',
@@ -384,7 +392,7 @@ const AskForTest = ({
             onPress: () => {},
             style: 'cancel',
           },
-          {text: 'OK', onPress: () => navigation.navigate(Routes.selectDevice)},
+          {text: 'OK', onPress: navigation.goBack},
         ],
         {cancelable: true},
       );
@@ -490,7 +498,10 @@ const AskForTest = ({
                       onPress: () => {},
                       style: 'cancel',
                     },
-                    {text: 'OK', onPress: () => onSkip()},
+                    {
+                      text: 'OK',
+                      onPress: () => onSkip(),
+                    },
                   ],
                   {cancelable: true},
                 );

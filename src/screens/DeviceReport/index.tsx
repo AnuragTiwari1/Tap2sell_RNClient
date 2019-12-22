@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Alert} from 'react-native';
 import styled from 'styled-components/native';
 import {AppText as Text} from '../../components/common/AppText';
 import {
@@ -48,7 +48,23 @@ export const DeviceReport = ({device}: {device: IDeviceState}) => {
         <FlexInvertedButton
           title="Re-evaluate"
           onPress={() => {
-            navigate(Routes.testDevice, {step: 'switchOn'});
+            Alert.alert(
+              'Are you sure?',
+              'All the progress will be lost. Do you want to continue?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK',
+                  onPress: () =>
+                    navigate(Routes.testDevice, {step: 'switchOn'}),
+                },
+              ],
+              {cancelable: true},
+            );
           }}
         />
         <FlexButton

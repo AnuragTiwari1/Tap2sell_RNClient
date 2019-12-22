@@ -44,23 +44,25 @@ export interface IDeviceState {
   };
 }
 
+export const defaultFunctionalState: IFunctionalState = {
+  bluetooth: 'notTested',
+  battery: 'notTested',
+  charging: 'notTested',
+  frontCamera: 'notTested',
+  backCamera: 'notTested',
+  microphone: 'notTested',
+  speaker: 'notTested',
+  vibration: 'notTested',
+  volumeUpButton: 'notTested',
+  volumeDownButton: 'notTested',
+  wifi: 'notTested',
+  gps: 'notTested',
+  touchScreen: 'notTested',
+};
+
 const initialState: IDeviceState = {
   generalDetails: null,
-  functionalState: {
-    bluetooth: 'notTested',
-    battery: 'notTested',
-    charging: 'notTested',
-    frontCamera: 'notTested',
-    backCamera: 'notTested',
-    microphone: 'notTested',
-    speaker: 'notTested',
-    vibration: 'notTested',
-    volumeUpButton: 'notTested',
-    volumeDownButton: 'notTested',
-    wifi: 'notTested',
-    gps: 'notTested',
-    touchScreen: 'notTested',
-  },
+  functionalState: defaultFunctionalState,
   phoneAge: '0-3',
   overallCondition: 'average',
   documents: {

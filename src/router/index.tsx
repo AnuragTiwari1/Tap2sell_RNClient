@@ -45,6 +45,9 @@ const AppNavigator = createSwitchNavigator(
         },
         [Routes.testDevice]: {
           screen: TestScreen,
+          navigationOptions: {
+            header: null,
+          },
         },
         [Routes.selectBrand]: {
           screen: SelectBrand,
