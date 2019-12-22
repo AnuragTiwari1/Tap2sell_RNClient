@@ -14,8 +14,18 @@ import {Icon} from 'react-native-elements';
 import {FlexButton, FlexInvertedButton} from '../../components/common/Buttons';
 import {useNavigation} from '../../hooks/useNavigation';
 import {Routes} from '../../router/routes';
+import {connect} from 'react-redux';
+import {IStore} from '../../redux/store';
+import {
+  IDeviceState,
+  IGeneralDetails,
+  IFunctionalState,
+  IPhoneAge,
+  ICondition,
+  conditionText,
+} from '../../redux/device';
 
-export const DeviceReport = () => {
+export const DeviceReport = ({device}: {device: IDeviceState}) => {
   const {navigate} = useNavigation();
   return (
     <View style={{flex: 1}}>
@@ -24,10 +34,10 @@ export const DeviceReport = () => {
         <Text style={{marginTop: `${small}%`}} type="center primary large">
           Get ₹5000/- Now
         </Text>
-        <Overview />
-        <Functional />
-        <PhoneAge />
-        <OverallCondition />
+        {!!device.generalDetails && <Overview data={device.generalDetails} />}
+        <Functional data={device.functionalState} />
+        <PhoneAge data={device.phoneAge} />
+        <OverallCondition data={device.overallCondition} />
       </ScrollView>
       <View
         style={{
@@ -50,12 +60,8 @@ export const DeviceReport = () => {
   );
 };
 
-const Overview = () => {
-  const status: Record<string, string> = {
-    ram: '4GB',
-    storage: '32GB',
-    'android version': '9',
-  };
+const Overview = ({data}: {data: IGeneralDetails}) => {
+  const {name, imgUrl, ...rest} = data;
   return (
     <>
       <Title>Overview</Title>
@@ -63,19 +69,16 @@ const Overview = () => {
         <TextContainer>
           <StyledImage
             source={{
-              uri:
-                'https://rukminim1.flixcart.com/image/312/312/jp02t8w0/mobile/z/z/e/asus-zenfone-max-m2-zb632kl-4a004in-original-imafbcafmv6tgqjz.jpeg?q=70',
+              uri: imgUrl,
             }}
             resizeMode="center"
           />
-          <Text style={{marginVertical: `${base}%`, width: '50%'}}>
-            Asus zenfone max pro m2
-          </Text>
+          <Text style={{marginVertical: `${base}%`, width: '50%'}}>{name}</Text>
         </TextContainer>
-        {Object.keys(status).map((e, i) => (
+        {Object.keys(rest).map((e, i) => (
           <TextContainer key={i}>
             <StatusTitle>{e}</StatusTitle>
-            <Text type="muted">{status[e]}</Text>
+            <Text type="muted">{rest[e]}</Text>
           </TextContainer>
         ))}
       </BaseContainer>
@@ -83,23 +86,15 @@ const Overview = () => {
   );
 };
 
-const Functional = () => {
-  const status: Record<string, boolean> = {
-    'touch display': true,
-    'front camera': true,
-    'back camera': true,
-    wifi: true,
-    bluetooth: false,
-  };
-
+const Functional = ({data}: {data: IFunctionalState}) => {
   return (
     <>
       <Title>Functional Condition</Title>
       <BaseContainer style={[{paddingTop: `${base}%`}]}>
-        {Object.keys(status).map((e, i) => (
+        {Object.keys(data).map((e, i) => (
           <TextContainer key={i}>
             <StatusTitle>{e}</StatusTitle>
-            {status[e] ? <CheckedIcon /> : <CloseIcon />}
+            {data[e] !== 'notWorking' ? <CheckedIcon /> : <CloseIcon />}
           </TextContainer>
         ))}
       </BaseContainer>
@@ -107,29 +102,31 @@ const Functional = () => {
   );
 };
 
-const PhoneAge = () => {
+const PhoneAge = ({data}: {data: IPhoneAge}) => {
   return (
     <>
       <Title>Phone Age</Title>
       <BaseContainer style={[{paddingTop: `${base}%`}]}>
         <TextContainer>
           <StatusTitle>Age</StatusTitle>
-          <Text type="muted">11+ Years</Text>
+          <Text type="muted">{data} Months</Text>
         </TextContainer>
       </BaseContainer>
     </>
   );
 };
 
-const OverallCondition = () => {
+const OverallCondition = ({data}: {data: ICondition}) => {
   return (
     <>
       <Title>Overall Condition</Title>
       <BaseContainer style={[{paddingTop: `${base}%`}]}>
         <TextContainer>
-          <StatusTitle style={{flex: 1}}>Excellent</StatusTitle>
+          <StatusTitle style={{flex: 1, textTransform: 'capitalize'}}>
+            {data !== 'poor' ? data : 'Below Average'}
+          </StatusTitle>
           <Text style={{flex: 2}} type="muted">
-            Just like a new ,Fully working, zero scratch
+            {conditionText[data]}
           </Text>
         </TextContainer>
       </BaseContainer>
@@ -181,4 +178,6 @@ const CheckedIcon = styled(Icon).attrs(() => ({
   color: Theme.basic.colors.primary,
 }))``;
 
-export default DeviceReport;
+export default connect((state: IStore) => ({
+  device: state.deviceReducer,
+}))(DeviceReport);

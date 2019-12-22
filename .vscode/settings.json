@@ -16,9 +16,14 @@
   "cSpell.words": [
     "Denk",
     "Lato",
+    "Walkthroughable",
     "Xiaomi",
     "antdesign",
+    "entypo",
     "errored",
     "wifi"
   ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
 }

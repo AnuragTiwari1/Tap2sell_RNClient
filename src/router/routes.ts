@@ -8,4 +8,5 @@ export const Routes = {
   createProfile: 'CREATE_PROFILE',
   schedulePickup: 'SCHEDULE_PICKUP',
   congo: 'congo',
+  intro: 'intro',
 };

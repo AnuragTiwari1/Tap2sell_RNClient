@@ -1,6 +1,28 @@
 export type IHealth = 'working' | 'notWorking' | 'notTested';
 export type IPhoneAge = '0-3' | '3-6' | '6-11' | '11+';
 export type ICondition = 'excellent' | 'good' | 'average' | 'poor';
+
+export const conditionText = {
+  excellent: 'Just like a new ,Fully working, zero scratch',
+  good: 'Minor marks and scratches,Fully working, no dent or crack',
+  average: 'Major scratches on body, Display work properly',
+  poor: 'Heavy dents,crack and scratches on body',
+};
+export interface IFunctionalState {
+  bluetooth: IHealth;
+  battery: IHealth;
+  charging: IHealth;
+  frontCamera: IHealth;
+  backCamera: IHealth;
+  microphone: IHealth;
+  speaker: IHealth;
+  vibration: IHealth;
+  volumeUpButton: IHealth;
+  volumeDownButton: IHealth;
+  wifi: IHealth;
+  gps: IHealth;
+  touchScreen: IHealth;
+}
 export interface IGeneralDetails {
   name: string;
   ram: number;
@@ -11,21 +33,7 @@ export interface IGeneralDetails {
 
 export interface IDeviceState {
   generalDetails: IGeneralDetails | null;
-  functionalState: {
-    bluetooth: IHealth;
-    battery: IHealth;
-    charging: IHealth;
-    frontCamera: IHealth;
-    backCamera: IHealth;
-    microphone: IHealth;
-    speaker: IHealth;
-    vibration: IHealth;
-    volumeUpButton: IHealth;
-    volumeDownButton: IHealth;
-    wifi: IHealth;
-    gps: IHealth;
-    touchScreen: IHealth;
-  };
+  functionalState: IFunctionalState;
   phoneAge: IPhoneAge;
   overallCondition: ICondition;
   documents: {

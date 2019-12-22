@@ -6,3 +6,4 @@ declare module '*.svg' {
 }
 declare module 'react-native-motion';
 declare module 'react-native-offline';
+declare module 'react-native-copilot';

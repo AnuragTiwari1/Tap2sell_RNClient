@@ -12,6 +12,7 @@ export interface IIcons
 export const tinyIcon = 4.0;
 export const smallIcon = 6.0;
 export const baseIcon = 8.0;
+export const normalIcon = 18.0;
 
 export const SearchIcon = withTheme<IIcons>(props => {
   return <Icon name="search" type="material" color="#939393" {...props} />;

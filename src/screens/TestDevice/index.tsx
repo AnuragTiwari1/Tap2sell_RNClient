@@ -20,7 +20,12 @@ import {
 } from '../../components/common/Buttons';
 import {base, borderRadius, small, Theme, xLarge} from '../../constants/Theme';
 import {useNavigation} from '../../hooks/useNavigation';
-import {IHealth, IPhoneAge} from '../../redux/device';
+import {
+  IHealth,
+  IPhoneAge,
+  IFunctionalState,
+  conditionText,
+} from '../../redux/device';
 import {IStore} from '../../redux/store';
 import {Routes} from '../../router/routes';
 import {useResponsiveHelper} from '../../utils/styles/responsive';
@@ -51,7 +56,7 @@ type ITestTypes =
   | 'selectDocuments';
 
 interface ISensorCardData {
-  status?: 'working' | 'failed' | 'checked';
+  status: 'working' | 'notWorking' | 'checked' | 'notTested';
   iconName: string;
   iconFamily: string;
   sensorName: string;
@@ -76,35 +81,6 @@ export const TestScreen = ({
   setDevice: any;
 }) => {
   const navigation = useNavigation<{step: ITestTypes}>();
-  const backHandler = React.useRef<NativeEventSubscription | null>(null);
-  React.useEffect(() => {
-    backHandler.current = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackClick,
-    );
-    return () => {
-      if (backHandler.current) backHandler.current.remove();
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleBackClick = () => {
-    if (navigation.isFocused()) {
-      Alert.alert(
-        'Exit Testing?',
-        'All the progress will be lost. Do you want to continue?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => navigation.navigate(Routes.selectDevice)},
-        ],
-        {cancelable: true},
-      );
-      return true;
-    }
-  };
 
   switch (navigation.getParam('step')) {
     case 'switchOn':
@@ -130,7 +106,7 @@ export const TestScreen = ({
       return (
         <AskForTest
           onLastStep={() =>
-            navigation.push(Routes.testDevice, {step: 'selectDocuments'})
+            navigation.push(Routes.testDevice, {step: 'askUserForTest'})
           }
           onSkip={() =>
             navigation.push(Routes.testDevice, {step: 'askUserForTest'})
@@ -162,6 +138,16 @@ export const TestScreen = ({
           onSubmit={() =>
             navigation.push(Routes.testDevice, {step: 'selectDocuments'})
           }
+          setDeviceState={(name: string, status: IHealth) => {
+            setDevice({
+              ...device,
+              functionalState: {
+                ...device.functionalState,
+                [name]: status,
+              },
+            });
+          }}
+          deviceState={device.functionalState}
         />
       );
 
@@ -278,7 +264,7 @@ const DocumentCard = ({
   const color = !checked ? '#fff' : '#ffd9a2';
   const invertedColor = color === '#fff' ? '#ffd9a2' : '#fff';
   return (
-    <StyledSensorCardContainer {...{onPress}}>
+    <StyledTextCardContainer {...{onPress}}>
       <View style={{backgroundColor: color}}>
         <StyledIcon name={iconName} type={iconType} color={invertedColor} />
         <Text
@@ -290,7 +276,7 @@ const DocumentCard = ({
           {title}
         </Text>
       </View>
-    </StyledSensorCardContainer>
+    </StyledTextCardContainer>
   );
 };
 
@@ -359,6 +345,8 @@ const AskForTest = ({
   setDevice: Function;
 }) => {
   const {widthPercentageToDP} = useResponsiveHelper();
+  const navigation = useNavigation();
+
   const [step, setStep] = React.useState(0);
   const [sensorStatus, setSensorStatus] = React.useState<ISensorStatus>(
     'pending',
@@ -373,6 +361,36 @@ const AskForTest = ({
     sensorStatus === 'errored' ||
     sensorStatus === 'fail' ||
     step === 0;
+
+  const backHandler = React.useRef<NativeEventSubscription | null>(null);
+  React.useEffect(() => {
+    backHandler.current = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackClick,
+    );
+    return () => {
+      if (backHandler.current) backHandler.current.remove();
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleBackClick = () => {
+    if (navigation.isFocused() && step > 0) {
+      Alert.alert(
+        'Exit Testing?',
+        'All the progress will be lost. Do you want to continue?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => navigation.navigate(Routes.selectDevice)},
+        ],
+        {cancelable: true},
+      );
+      return true;
+    }
+  };
 
   const _renderBtn = () => {
     switch (step) {
@@ -666,57 +684,101 @@ const AskForTest = ({
   );
 };
 
-const UserTest = ({onSubmit}: {onSubmit: (e: any) => void}) => {
-  const initialData: ISensorCardData[] = [
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'wifi',
-      status: 'failed',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'bluetooth',
-      status: 'working',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'gps',
-      status: 'working',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'touch',
-      status: 'failed',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'button',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'camera',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'bluetooth',
-      status: 'working',
-    },
-    {
-      iconName: 'wifi',
-      iconFamily: 'feather',
-      sensorName: 'gps',
-      status: 'working',
-    },
-  ];
+const UserTest = ({
+  onSubmit,
+  deviceState,
+  setDeviceState,
+}: {
+  onSubmit: (e: any) => void;
+  deviceState: IFunctionalState;
+  setDeviceState: (name: string, status: IHealth) => void;
+}) => {
+  const [data, setData] = React.useState<ISensorCardData[]>([]);
+  React.useEffect(() => {
+    const initialData: ISensorCardData[] = [
+      {
+        iconName: 'wifi',
+        iconFamily: 'feather',
+        sensorName: 'wifi',
+        status: deviceState.wifi,
+      },
+      {
+        iconName: 'bluetooth',
+        iconFamily: 'feather',
+        sensorName: 'bluetooth',
+        status: deviceState.bluetooth,
+      },
+      {
+        iconName: 'location-pin',
+        iconFamily: 'entypo',
+        sensorName: 'gps',
+        status: deviceState.gps,
+      },
+      {
+        iconName: 'touch-app',
+        iconFamily: 'material-icons',
+        sensorName: 'touch',
+        status: deviceState.touchScreen,
+      },
+      {
+        iconName: 'volume-2',
+        iconFamily: 'feather',
+        sensorName: 'volume-up',
+        status: deviceState.volumeUpButton,
+      },
+      {
+        iconName: 'volume-1',
+        iconFamily: 'feather',
+        sensorName: 'volume-down',
+        status: deviceState.volumeDownButton,
+      },
+      {
+        iconName: 'camera',
+        iconFamily: 'feather',
+        sensorName: 'back-camera',
+        status: deviceState.backCamera,
+      },
+      {
+        iconName: 'camera',
+        iconFamily: 'feather',
+        sensorName: 'front-camera',
+        status: deviceState.backCamera,
+      },
+      {
+        iconName: 'battery',
+        iconFamily: 'feather',
+        sensorName: 'battery',
+        status: deviceState.battery,
+      },
+      {
+        iconName: 'battery-charging',
+        iconFamily: 'feather',
+        sensorName: 'charging-port',
+        status: deviceState.charging,
+      },
+      {
+        iconName: 'microphone',
+        iconFamily: 'material-community',
+        sensorName: 'microphone',
+        status: deviceState.microphone,
+      },
+      {
+        iconName: 'speaker',
+        iconFamily: 'feather',
+        sensorName: 'speaker',
+        status: deviceState.speaker,
+      },
+      {
+        iconName: 'vibrate',
+        iconFamily: 'material-community',
+        sensorName: 'vibration',
+        status: deviceState.vibration,
+      },
+    ];
 
-  const [data, setData] = React.useState(initialData);
+    setData(initialData);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <View style={{justifyContent: 'space-between', flex: 1}}>
       <View style={{flex: 1}}>
@@ -738,7 +800,11 @@ const UserTest = ({onSubmit}: {onSubmit: (e: any) => void}) => {
                 {...item}
                 onPress={() => {
                   data[index].status =
-                    data[index].status === 'checked' ? undefined : 'checked';
+                    data[index].status === 'checked' ? 'notTested' : 'checked';
+                  setDeviceState(
+                    data[index].sensorName,
+                    data[index].status === 'checked' ? 'notWorking' : 'working',
+                  );
                   setData([...data]);
                 }}
               />
@@ -761,14 +827,15 @@ const SensorCard = ({
 }: ISensorCardData & {
   onPress: (e: any) => void;
 }) => {
-  const color = !status || status === 'working' ? '#fff' : '#ffd9a2';
+  const color =
+    status === 'working' || status === 'notTested' ? '#fff' : '#ffd9a2';
   const invertedColor = color === '#fff' ? '#ffd9a2' : '#fff';
   return (
     <StyledSensorCardContainer
       style={[{backgroundColor: color}]}
-      disabled={status === 'working' || status === 'failed'}
+      disabled={status === 'working' || status === 'notWorking'}
       onPress={onPress}>
-      {status === 'working' || status === 'failed' ? (
+      {status === 'working' || status === 'notWorking' ? (
         <View
           style={[
             styles.sensorStatusTextContainer,
@@ -780,7 +847,7 @@ const SensorCard = ({
               color: status === 'working' ? Theme.basic.colors.primary : 'red',
               paddingVertical: `${small}%`,
             }}>
-            {status}
+            {status === 'working' ? 'working' : 'failed'}
           </Text>
         </View>
       ) : (
@@ -799,12 +866,16 @@ const SensorCard = ({
   );
 };
 
-const StyledSensorCardContainer = styled.TouchableOpacity`
+const StyledTextCardContainer = styled.TouchableOpacity`
   border-width: 2;
   border-color: #ffd9a2;
   flex: 1;
   margin: ${small}%;
   border-radius: ${borderRadius};
+`;
+
+const StyledSensorCardContainer = styled(StyledTextCardContainer)`
+  max-width: 50%;
 `;
 
 const StyledIcon = styled(Icon).attrs(() => ({
@@ -831,25 +902,25 @@ const SelectPhoneCondition = ({onSubmit}: {onSubmit: (e: any) => void}) => {
   const initialData: IConditionObj[] = [
     {
       title: 'Excellent',
-      subtitle: 'Just like a new ,Fully working, zero scratch',
+      subtitle: conditionText.excellent,
       checked: true,
       condition: 'excellent',
     },
     {
       title: 'Good',
-      subtitle: 'Minor marks and scratches,Fully working, no dent or crack',
+      subtitle: conditionText.good,
       checked: false,
       condition: 'good',
     },
     {
       title: 'Average',
-      subtitle: 'Major scratches on body, Display work properly',
+      subtitle: conditionText.average,
       checked: false,
       condition: 'average',
     },
     {
       title: 'Below Average',
-      subtitle: 'Heavy dents,crack and scratches on body',
+      subtitle: conditionText.poor,
       checked: false,
       condition: 'poor',
     },
@@ -916,6 +987,6 @@ const PhoneConditionCard = ({
   );
 };
 
-const StyledConditionCardContainer = styled(StyledSensorCardContainer)`
+const StyledConditionCardContainer = styled(StyledTextCardContainer)`
   padding: ${base}%;
 `;

@@ -1,23 +1,31 @@
 import React from 'react';
-import {AppText as Text} from '../../components/common/AppText';
-import {View, ScrollView} from 'react-native';
-import {useResponsiveHelper} from '../../utils/styles/responsive';
+import {Image, ScrollView, View} from 'react-native';
+import {walkthroughable} from 'react-native-copilot';
 import {
-  HeaderContainer,
-  ScreenMainContainer,
-  OfferContainer,
-  OfferCardScroll,
-  OfferCard,
-} from './styles';
+  Badge,
+  Header as ElementsHeader,
+  Icon,
+  InputProps,
+} from 'react-native-elements';
+import {SharedElement} from 'react-native-motion';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {AppText as Text} from '../../components/common/AppText';
 import {SearchBar} from '../../components/common/SearchBar';
-import {InputProps, Icon} from 'react-native-elements';
-import {IntroCarousal} from './components/IntroCarousal';
-import {base, small} from '../../constants/Theme';
 import {smallIcon} from '../../components/Icon/common';
 import {constant} from '../../Config';
-import {SharedElement} from 'react-native-motion';
+import {base, headerHeight, large, small, xLarge} from '../../constants/Theme';
 import {Routes} from '../../router/routes';
-import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {useResponsiveHelper} from '../../utils/styles/responsive';
+import {IntroCarousal} from './components/IntroCarousal';
+import {
+  OfferCard,
+  OfferCardScroll,
+  OfferContainer,
+  ScreenMainContainer,
+} from './styles';
+
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableImage = walkthroughable(Image);
 
 export const Landing: React.FC<NavigationStackScreenProps> = props => {
   const {heightPercentageToDP} = useResponsiveHelper();
@@ -122,9 +130,40 @@ const OfferListItems = ({
 
 export const Header = () => {
   return (
-    <HeaderContainer>
-      <Text type="header bold">Tap2sell</Text>
-    </HeaderContainer>
+    <ElementsHeader
+      containerStyle={{
+        backgroundColor: `#fff`,
+        height: headerHeight,
+        paddingBottom: `${base}%`,
+      }}
+      leftComponent={
+        <View
+          style={{
+            marginHorizontal: `${large}%`,
+          }}>
+          <Icon name="user" type="feather" />
+        </View>
+      }
+      centerComponent={<Text type="header bold">Tap2sell</Text>}
+      centerContainerStyle={{margin: `${small}%`}}
+      rightComponent={
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: xLarge,
+          }}>
+          <Icon name="shopping-cart" type="feather" />
+
+          <View style={{marginHorizontal: xLarge * 1.5}}>
+            <Icon name="bell" type="feather" containerStyle={{}} />
+            <Badge
+              status="primary"
+              containerStyle={{position: 'absolute', right: 0}}
+            />
+          </View>
+        </View>
+      }
+    />
   );
 };
 

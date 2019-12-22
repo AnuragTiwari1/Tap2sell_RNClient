@@ -310,6 +310,10 @@ export const TestMicrophone = ({
       .catch(() => handleStatusChange('failed'));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  React.useEffect(() => {
+    handleStatusChange('pending');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <View
@@ -322,7 +326,7 @@ export const TestMicrophone = ({
           {
             {
               pending:
-                'Testing Microphone! we are recording your voice samples so speak up',
+                'Testing Microphone! we will be recording your voice samples so speak out aloud',
               pass: 'Microphone is working fine',
               fail: 'Microphone is not working',
               errored: 'Test Failed. You can skip the test for now',
